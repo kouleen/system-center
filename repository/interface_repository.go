@@ -11,16 +11,16 @@ import (
 func QueryInterfacePage(ctx context.Context, req *system.SystemInterfaceRequest) (list []*modle.SystemInterface, total int64, err error) {
 	query := mysql.GetReadMysqlDDB().WithContext(ctx).Where("is_delete = ?", 0)
 	if req.RequestPath != "" {
-		query = query.Where("request_path LIKE " + req.RequestPath + "%'")
+		query = query.Where("request_path LIKE = ?", req.RequestPath+"%")
 	}
 	if req.InterfaceName != "" {
-		query = query.Where("interface_name LIKE " + req.InterfaceName + "%'")
+		query = query.Where("interface_name LIKE = ?", req.InterfaceName+"%")
 	}
 	if req.MethodType != nil {
 		query = query.Where("method_type = ?", req.MethodType)
 	}
 	if req.MethodName != "" {
-		query = query.Where("method_name LIKE " + req.MethodName + "%'")
+		query = query.Where("method_name LIKE = ?", req.MethodName+"%")
 	}
 	if req.Version != "" {
 		query = query.Where("version = ?", req.Version)
@@ -39,16 +39,16 @@ func QueryInterfacePage(ctx context.Context, req *system.SystemInterfaceRequest)
 func QueryInterfaceList(ctx context.Context, req *system.SystemInterfaceRequest) (list []*modle.SystemInterface, err error) {
 	query := mysql.GetReadMysqlDDB().WithContext(ctx).Where("is_delete = ?", 0)
 	if req.RequestPath != "" {
-		query = query.Where("request_path LIKE " + req.RequestPath + "%'")
+		query = query.Where("request_path LIKE ?", req.RequestPath+"%")
 	}
 	if req.InterfaceName != "" {
-		query = query.Where("interface_name LIKE " + req.InterfaceName + "%'")
+		query = query.Where("interface_name LIKE ?", req.InterfaceName+"%")
 	}
 	if req.MethodType != nil {
 		query = query.Where("method_type = ?", req.MethodType)
 	}
 	if req.MethodName != "" {
-		query = query.Where("method_name LIKE " + req.MethodName + "%'")
+		query = query.Where("method_name LIKE = ?", req.MethodName+"%")
 	}
 	if req.Version != "" {
 		query = query.Where("version = ?", req.Version)

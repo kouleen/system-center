@@ -206,24 +206,20 @@ func (s *SystemServiceImpl) CancelSystemRoleUser(ctx context.Context, systemRole
 
 // QuerySystemTemplatePage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemTemplatePage(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp *system.SystemTemplatePageResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryTemplatePage(ctx, systemTemplateRequest)
 }
 
 // SaveSystemTemplate implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.SaveTemplate(ctx, systemTemplateRequest)
 }
 
 // UpdateSystemTemplate implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateTemplate(ctx, systemTemplateRequest)
 }
 
 // DeleteSystemTemplate implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.DeleteTemplate(ctx, systemTemplateRequest)
 }
