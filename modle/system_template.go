@@ -19,3 +19,17 @@ type SystemTemplate struct {
 func (s SystemTemplate) TableName() string {
 	return "system_template"
 }
+
+type TemplateCodeRule struct{}
+
+func (TemplateCodeRule) GetPrefix() string {
+	return "SMB"
+}
+
+func (TemplateCodeRule) GetPattern() string {
+	return "20060102"
+}
+
+func (TemplateCodeRule) GetDigit() int {
+	return 5
+}

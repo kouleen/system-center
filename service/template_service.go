@@ -5,6 +5,7 @@ import (
 
 	"github.com/bwmarrin/snowflake"
 	"github.com/kouleen/common/pkg/ctxutil"
+	"github.com/kouleen/common/pkg/redis"
 	"github.com/kouleen/idl/kitex_gen/system"
 	"github.com/kouleen/system-center/modle"
 	"github.com/kouleen/system-center/repository"
@@ -47,9 +48,10 @@ func CreateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (boo
 		return false, err
 	}
 	id := node.Generate().Int64()
+	process := &redis.CodeProcess{}
 	template := &modle.SystemTemplate{
 		ID:              id,
-		TemplateCode:    req.TemplateCode,
+		TemplateCode:    process.GenerateCode(ctx, &modle.TemplateCodeRule{}),
 		TemplateName:    req.TemplateName,
 		TemplateType:    req.TemplateType,
 		TemplateContent: req.TemplateContent,
