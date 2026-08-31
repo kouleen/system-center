@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/kouleen/idl/kitex_gen/system"
-	"github.com/kouleen/system-center/service"
+	"github.com/kouleen/system-center/handle"
 )
 
 // SystemServiceImpl implements the last service interface defined in the IDL.
@@ -12,97 +12,82 @@ type SystemServiceImpl struct{}
 
 // QuerySystemDictHeaderPage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemDictHeaderPage(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp *system.SystemDictHeaderPageResponse, err error) {
-	return service.QueryDictHeaderPage(ctx, systemDictHeaderRequest)
+	return handle.QueryDictHeaderPage(ctx, systemDictHeaderRequest)
 }
 
 // QuerySystemDictHeaderList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemDictHeaderList(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp []*system.SystemDictHeaderResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryDictHeaderList(ctx, systemDictHeaderRequest)
 }
 
 // CreateSystemDictHeader implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) CreateSystemDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.CreateDictHeader(ctx, systemDictHeaderRequest)
 }
 
 // UpdateSystemDictHeader implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateDictHeader(ctx, systemDictHeaderRequest)
 }
 
 // DeleteSystemDictHeader implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.DeleteDictHeader(ctx, systemDictHeaderRequest)
 }
 
 // QuerySystemDictLinePage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemDictLinePage(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp *system.SystemDictLinePageResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryDictLinePage(ctx, systemDictLineRequest)
 }
 
 // QuerySystemDictLineList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemDictLineList(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp []*system.SystemDictLineResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryDictLineList(ctx, systemDictLineRequest)
 }
 
 // CreateSystemDictLine implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) CreateSystemDictLine(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.CreateDictLine(ctx, systemDictLineRequest)
 }
 
 // UpdateSystemDictLine implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemDictLine(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateDictLine(ctx, systemDictLineRequest)
 }
 
 // DeleteSystemDictLine implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemDictLine(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.DeleteDictLine(ctx, systemDictLineRequest)
 }
 
 // QuerySystemInterfacePage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemInterfacePage(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp *system.SystemInterfacePageResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryInterfacePage(ctx, systemInterfaceRequest)
 }
 
 // QuerySystemInterfaceList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemInterfaceList(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp []*system.SystemInterfaceResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryInterfaceList(ctx, systemInterfaceRequest)
 }
 
 // SaveSystemInterface implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemInterface(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.SaveInterface(ctx, systemInterfaceRequest)
 }
 
 // UpdateSystemInterface implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemInterface(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateInterface(ctx, systemInterfaceRequest)
 }
 
 // DeleteSystemInterface implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemInterface(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.DeleteInterface(ctx, systemInterfaceRequest)
 }
 
 // CleanCacheSystemInterface implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) CleanCacheSystemInterface(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.CleanCacheInterface(ctx, systemInterfaceRequest)
 }
 
 // QuerySystemMenuPage implements the SystemServiceImpl interface.

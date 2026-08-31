@@ -2,10 +2,13 @@ package modle
 
 import "time"
 
-type SystemDictHeader struct {
+type SystemDictLine struct {
 	ID         int64      `json:"id,string" gorm:"column:id;primary_key;not null"`
-	DictName   string     `json:"dictName" gorm:"column:dict_name;not null"`
+	DictCode   string     `json:"dictCode" gorm:"column:dict_code;not null"`
+	DictValue  string     `json:"dictValue" gorm:"column:dict_value;default:''"`
+	DictSort   int32      `json:"dictSort" gorm:"column:dict_sort;default:0"`
 	DictType   string     `json:"dictType" gorm:"column:dict_type;not null"`
+	ListClass  string     `json:"listClass" gorm:"column:list_class;default:''"`
 	Status     uint8      `json:"status" gorm:"column:status;default:1"`
 	Remark     string     `json:"remark" gorm:"column:remark;default:''"`
 	IsDelete   uint8      `json:"isDelete" gorm:"column:is_delete;not null;default:0"`
@@ -15,6 +18,6 @@ type SystemDictHeader struct {
 	UpdateTime *time.Time `json:"updateTime" gorm:"column:update_time;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 }
 
-func (SystemDictHeader) TableName() string {
-	return "system_dict_header"
+func (SystemDictLine) TableName() string {
+	return "system_dict_line"
 }
