@@ -54,7 +54,7 @@ jobs:
           fi
 
       - name: Call Custom Callback API
-        if : always()
+        if: always()
         run: |
           curl -X POST "https://www.kouleen.cn/api/docker/webhook/put?secret=${{ secrets.HOOK_SECRET }}" \
           -H "Content-Type: application/json" \
@@ -73,7 +73,7 @@ jobs:
             "workflow": "${{ github.workflow }}",
             "triggerType": "${{ github.event_name }}",
             "failRemark": "${{ env.fail_msg }}",
-            "networkMode": "go-server-internal",
+            "networkMode": ["etcd-internal","mysql-internal","redis-internal"],
             "restartPolicy": "",
             "removeOldExist": true,
             "enableIT": true,
