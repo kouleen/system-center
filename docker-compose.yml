@@ -1,5 +1,5 @@
 services:
-  user-center:
+  system-center:
     image: kouleen/system-center:latest
     container_name: system-center
     environment:
@@ -8,10 +8,29 @@ services:
       - REDIS_ADDR=${REDIS_ADDR}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - REDIS_DB=${REDIS_DB}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_SLAVE1_USERNAME=${MYSQL_SLAVE1_USERNAME}
+      - MYSQL_SLAVE1_PASSWORD=${MYSQL_SLAVE1_PASSWORD}
+      - MYSQL_SLAVE1_HOST=${MYSQL_SLAVE1_HOST}
+      - MYSQL_SLAVE1_PORT=${MYSQL_SLAVE1_PORT}
+      - MYSQL_SLAVE1_DATABASE=${MYSQL_SLAVE1_DATABASE}
+      - MYSQL_SLAVE2_USERNAME=${MYSQL_SLAVE2_USERNAME}
+      - MYSQL_SLAVE2_PASSWORD=${MYSQL_SLAVE2_PASSWORD}
+      - MYSQL_SLAVE2_HOST=${MYSQL_SLAVE2_HOST}
+      - MYSQL_SLAVE2_PORT=${MYSQL_SLAVE2_PORT}
+      - MYSQL_SLAVE2_DATABASE=${MYSQL_SLAVE2_DATABASE}
     networks:
-      - go-server-internal
+      - etcd-internal
+      - mysql-internal
+      - redis-internal
 networks:
-  go-server-internal:
+  etcd-internal:
     external: true
-    name: go-server-internal
-
+  mysql-internal:
+    external: true
+  redis-internal:
+    external: true
