@@ -5,8 +5,9 @@ go 1.25.0
 require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/cloudwego/kitex v0.16.3
-	github.com/kouleen/common v0.0.18
-	github.com/kouleen/idl v0.0.14
+	github.com/kouleen/common v0.0.23
+	github.com/kouleen/idl v0.0.23
+	gorm.io/gorm v1.31.2
 )
 
 require (
@@ -70,5 +71,4 @@ require (
 	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.6.0 // indirect
-	gorm.io/gorm v1.31.2 // indirect
 )

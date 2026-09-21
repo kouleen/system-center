@@ -17,26 +17,7 @@ func QueryInterfacePage(ctx context.Context, req *system.SystemInterfaceRequest)
 	}
 	records := make([]*system.SystemInterfaceResponse, len(list))
 	for index, lis := range list {
-		var updateTime int64
-		if lis.UpdateTime != nil {
-			updateTime = lis.UpdateTime.UnixMilli()
-		}
-		records[index] = &system.SystemInterfaceResponse{
-			Id:            lis.ID,
-			RequestPath:   lis.RequestPath,
-			InterfaceName: lis.InterfaceName,
-			MethodType:    int8(lis.MethodType),
-			MethodName:    lis.MethodName,
-			ParamTypes:    lis.ParamTypes,
-			Version:       lis.Version,
-			Status:        int8(lis.Status),
-			Remark:        lis.Remark,
-			IsDelete:      int8(lis.IsDelete),
-			CreatedBy:     lis.CreatedBy,
-			UpdatedBy:     lis.UpdatedBy,
-			CreateTime:    lis.CreateTime.UnixMilli(),
-			UpdateTime:    updateTime,
-		}
+		records[index] = lis.ConvertResp()
 	}
 	return &system.SystemInterfacePageResponse{
 		Total:   total,
@@ -51,28 +32,17 @@ func QueryInterfaceList(ctx context.Context, req *system.SystemInterfaceRequest)
 	}
 	records := make([]*system.SystemInterfaceResponse, len(list))
 	for index, lis := range list {
-		var updateTime int64
-		if lis.UpdateTime != nil {
-			updateTime = lis.UpdateTime.UnixMilli()
-		}
-		records[index] = &system.SystemInterfaceResponse{
-			Id:            lis.ID,
-			RequestPath:   lis.RequestPath,
-			InterfaceName: lis.InterfaceName,
-			MethodType:    int8(lis.MethodType),
-			MethodName:    lis.MethodName,
-			ParamTypes:    lis.ParamTypes,
-			Version:       lis.Version,
-			Status:        int8(lis.Status),
-			Remark:        lis.Remark,
-			IsDelete:      int8(lis.IsDelete),
-			CreatedBy:     lis.CreatedBy,
-			UpdatedBy:     lis.UpdatedBy,
-			CreateTime:    lis.CreateTime.UnixMilli(),
-			UpdateTime:    updateTime,
-		}
+		records[index] = lis.ConvertResp()
 	}
 	return records, nil
+}
+
+func QueryInterface(ctx context.Context, req *system.SystemInterfaceRequest) (resp *system.SystemInterfaceResponse, err error) {
+	systemInterface, err := repository.QueryInterfaceById(ctx, req.GetId())
+	if err != nil {
+		return
+	}
+	return systemInterface.ConvertResp(), nil
 }
 
 func CreateInterface(ctx context.Context, req *system.SystemInterfaceRequest) (resp bool, err error) {
@@ -83,14 +53,14 @@ func CreateInterface(ctx context.Context, req *system.SystemInterfaceRequest) (r
 	id := node.Generate().Int64()
 	line := &modle.SystemInterface{
 		ID:            id,
-		RequestPath:   req.RequestPath,
-		InterfaceName: req.InterfaceName,
-		MethodType:    uint8(*req.MethodType),
-		MethodName:    req.MethodName,
-		ParamTypes:    req.ParamTypes,
-		Version:       req.Version,
-		Status:        uint8(*req.Status),
-		Remark:        req.Remark,
+		RequestPath:   req.GetRequestPath(),
+		InterfaceName: req.GetInterfaceName(),
+		MethodType:    req.MethodType,
+		MethodName:    req.GetMethodName(),
+		ParamTypes:    req.GetParamTypes(),
+		Version:       req.GetVersion(),
+		Status:        req.Status,
+		Remark:        req.GetRemark(),
 		CreatedBy:     ctxutil.GetUserId(ctx),
 	}
 	if err = repository.CreateInterface(ctx, line); err != nil {
@@ -106,10 +76,10 @@ func UpdateInterface(ctx context.Context, req *system.SystemInterfaceRequest) (r
 	}
 	inter.RequestPath = req.RequestPath
 	inter.InterfaceName = req.InterfaceName
-	inter.MethodType = uint8(*req.MethodType)
+	inter.MethodType = req.MethodType
 	inter.MethodName = req.MethodName
 	inter.ParamTypes = req.ParamTypes
-	inter.Status = uint8(*req.Status)
+	inter.Status = req.Status
 	inter.Remark = req.Remark
 	inter.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateInterface(ctx, inter); err != nil {
@@ -123,7 +93,7 @@ func DeleteInterface(ctx context.Context, req *system.SystemInterfaceRequest) (r
 	if err != nil {
 		return false, err
 	}
-	inter.IsDelete = uint8(*req.IsDelete)
+	inter.IsDelete = req.IsDelete
 	inter.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateInterface(ctx, inter); err != nil {
 		return false, err

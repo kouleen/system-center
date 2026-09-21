@@ -18,28 +18,21 @@ func QueryTemplatePage(ctx context.Context, req *system.SystemTemplateRequest) (
 	}
 	records := make([]*system.SystemTemplateResponse, len(list))
 	for i, item := range list {
-		var updateTime int64
-		if item.UpdateTime != nil {
-			updateTime = item.UpdateTime.UnixMilli()
-		}
-		records[i] = &system.SystemTemplateResponse{
-			Id:              item.ID,
-			TemplateCode:    item.TemplateCode,
-			TemplateName:    item.TemplateName,
-			TemplateType:    item.TemplateType,
-			TemplateContent: item.TemplateContent,
-			Remark:          item.Remark,
-			IsDelete:        int8(item.IsDelete),
-			CreatedBy:       item.CreatedBy,
-			UpdatedBy:       item.UpdatedBy,
-			CreateTime:      item.CreateTime.UnixMilli(),
-			UpdateTime:      updateTime,
-		}
+		records[i] = item.ConvertResp()
 	}
 	return &system.SystemTemplatePageResponse{
 		Total:   total,
 		Records: records,
 	}, nil
+}
+
+func QueryTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (*system.SystemTemplateResponse, error) {
+	systemTemplate, err := repository.QueryTemplateById(ctx, systemTemplateRequest.GetId())
+	if err != nil {
+		return nil, err
+	}
+	return systemTemplate.ConvertResp(), nil
+
 }
 
 func CreateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (bool, error) {
@@ -85,7 +78,7 @@ func DeleteTemplate(ctx context.Context, req *system.SystemTemplateRequest) (res
 	if err != nil {
 		return false, err
 	}
-	template.IsDelete = uint8(*req.IsDelete)
+	template.IsDelete = req.IsDelete
 	template.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateTemplate(ctx, template); err != nil {
 		return false, err

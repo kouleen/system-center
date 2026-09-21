@@ -17,22 +17,7 @@ func QueryDictHeaderPage(ctx context.Context, req *system.SystemDictHeaderReques
 	}
 	systemDictHeaderList := make([]*system.SystemDictHeaderResponse, len(list))
 	for index, dictHeader := range list {
-		var updateTime int64
-		if dictHeader.UpdateTime != nil {
-			updateTime = dictHeader.UpdateTime.UnixMilli()
-		}
-		systemDictHeaderList[index] = &system.SystemDictHeaderResponse{
-			Id:         dictHeader.ID,
-			DictName:   dictHeader.DictName,
-			DictType:   dictHeader.DictType,
-			Status:     int8(dictHeader.Status),
-			Remark:     dictHeader.Remark,
-			IsDelete:   int8(dictHeader.IsDelete),
-			CreatedBy:  dictHeader.CreatedBy,
-			UpdatedBy:  dictHeader.UpdatedBy,
-			CreateTime: dictHeader.CreateTime.UnixMilli(),
-			UpdateTime: updateTime,
-		}
+		systemDictHeaderList[index] = dictHeader.ConvertResp()
 	}
 	return &system.SystemDictHeaderPageResponse{
 		Total:   total,
@@ -47,25 +32,17 @@ func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderReques
 	}
 	systemDictHeaderList := make([]*system.SystemDictHeaderResponse, len(list))
 	for index, dictHeader := range list {
-		var updateTime int64
-		if dictHeader.UpdateTime != nil {
-			updateTime = dictHeader.UpdateTime.UnixMilli()
-		}
-		header := &system.SystemDictHeaderResponse{
-			Id:         dictHeader.ID,
-			DictName:   dictHeader.DictName,
-			DictType:   dictHeader.DictType,
-			Status:     int8(dictHeader.Status),
-			Remark:     dictHeader.Remark,
-			IsDelete:   int8(dictHeader.IsDelete),
-			CreatedBy:  dictHeader.CreatedBy,
-			UpdatedBy:  dictHeader.UpdatedBy,
-			CreateTime: dictHeader.CreateTime.UnixMilli(),
-			UpdateTime: updateTime,
-		}
-		systemDictHeaderList[index] = header
+		systemDictHeaderList[index] = dictHeader.ConvertResp()
 	}
 	return systemDictHeaderList, nil
+}
+
+func QueryDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp *system.SystemDictHeaderResponse, err error) {
+	dictHeader, err := repository.QueryDictHeaderById(ctx, systemDictHeaderRequest.GetId())
+	if err != nil {
+		return
+	}
+	return dictHeader.ConvertResp(), err
 }
 
 func CreateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) (resp bool, err error) {
@@ -76,10 +53,11 @@ func CreateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) 
 	id := node.Generate().Int64()
 	header := &modle.SystemDictHeader{
 		ID:        id,
-		DictName:  req.DictName,
-		DictType:  req.DictType,
-		Status:    uint8(*req.Status),
+		DictName:  req.GetDictName(),
+		DictType:  req.GetDictType(),
+		Status:    req.Status,
 		CreatedBy: ctxutil.GetUserId(ctx),
+		Remark:    req.GetRemark(),
 	}
 	if err = repository.CreateDictHeader(ctx, header); err != nil {
 		return false, err
@@ -94,7 +72,7 @@ func UpdateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) 
 	}
 	header.DictName = req.DictName
 	header.DictType = req.DictType
-	header.Status = uint8(*req.Status)
+	header.Status = req.Status
 	header.Remark = req.Remark
 	header.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateDictHeader(ctx, header); err != nil {
@@ -104,13 +82,16 @@ func UpdateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) 
 }
 
 func DeleteDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) (resp bool, err error) {
-	header, err := repository.QueryDictHeaderById(ctx, *req.Id)
-	if err != nil {
+	dictHeaderList, err := repository.QueryDictHeaderByIdList(ctx, req.GetIdList())
+	if err != nil || len(req.GetIdList()) != len(dictHeaderList) {
 		return false, err
 	}
-	header.IsDelete = uint8(*req.IsDelete)
-	header.UpdatedBy = ctxutil.GetUserId(ctx)
-	if err = repository.UpdateDictHeader(ctx, header); err != nil {
+	isDelete := int8(1)
+	for _, header := range dictHeaderList {
+		header.IsDelete = &isDelete
+		header.UpdatedBy = ctxutil.GetUserId(ctx)
+	}
+	if err = repository.BatchUpdateDictHeader(ctx, dictHeaderList); err != nil {
 		return false, err
 	}
 	return true, nil

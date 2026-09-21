@@ -9,7 +9,7 @@ import (
 )
 
 func QueryTemplatePage(ctx context.Context, req *system.SystemTemplateRequest) (list []*modle.SystemTemplate, total int64, err error) {
-	query := mysql.GetReadMysqlDDB().WithContext(ctx).Where("is_deleted = ?", 0)
+	query := mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("is_deleted = ?", 0)
 	if req.TemplateCode == "" {
 		query = query.Where("template_code = ?", req.TemplateCode)
 	}
@@ -19,8 +19,8 @@ func QueryTemplatePage(ctx context.Context, req *system.SystemTemplateRequest) (
 	if req.TemplateName == "" {
 		query = query.Where("template_name like ?", req.TemplateName+"%")
 	}
-	if query.Count(&total).Error != nil {
-		return nil, 0, query.Error
+	if err = query.Count(&total).Error; err != nil || total == 0 {
+		return
 	}
 	query = query.Order("create_time desc")
 	i := (req.GetCurrent() - 1) * req.GetSize()
@@ -31,21 +31,21 @@ func QueryTemplatePage(ctx context.Context, req *system.SystemTemplateRequest) (
 }
 
 func QueryTemplateById(ctx context.Context, id int64) (entity *modle.SystemTemplate, err error) {
-	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Where("id = ?", id).First(&entity).Error; err != nil {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", id).First(&entity).Error; err != nil {
 		return
 	}
 	return
 }
 
 func CreateTemplate(ctx context.Context, entity *modle.SystemTemplate) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Create(entity).Error; err != nil {
+	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Create(entity).Error; err != nil {
 		return
 	}
 	return
 }
 
 func UpdateTemplate(ctx context.Context, entity *modle.SystemTemplate) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Where("id = ?", entity.ID).Updates(entity).Error; err != nil {
+	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", entity.ID).Updates(entity).Error; err != nil {
 		return
 	}
 	return

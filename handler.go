@@ -20,6 +20,11 @@ func (s *SystemServiceImpl) QuerySystemDictHeaderList(ctx context.Context, syste
 	return handle.QueryDictHeaderList(ctx, systemDictHeaderRequest)
 }
 
+// QuerySystemDictHeader implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp *system.SystemDictHeaderResponse, err error) {
+	return handle.QueryDictHeader(ctx, systemDictHeaderRequest)
+}
+
 // CreateSystemDictHeader implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) CreateSystemDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp bool, err error) {
 	return handle.CreateDictHeader(ctx, systemDictHeaderRequest)
@@ -43,6 +48,11 @@ func (s *SystemServiceImpl) QuerySystemDictLinePage(ctx context.Context, systemD
 // QuerySystemDictLineList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemDictLineList(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp []*system.SystemDictLineResponse, err error) {
 	return handle.QueryDictLineList(ctx, systemDictLineRequest)
+}
+
+// QuerySystemDictLine implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemDictLine(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp *system.SystemDictLineResponse, err error) {
+	return handle.QueryDictLine(ctx, systemDictLineRequest)
 }
 
 // CreateSystemDictLine implements the SystemServiceImpl interface.
@@ -70,6 +80,11 @@ func (s *SystemServiceImpl) QuerySystemInterfaceList(ctx context.Context, system
 	return handle.QueryInterfaceList(ctx, systemInterfaceRequest)
 }
 
+// QuerySystemInterface implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemInterface(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp *system.SystemInterfaceResponse, err error) {
+	return handle.QueryInterface(ctx, systemInterfaceRequest)
+}
+
 // SaveSystemInterface implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemInterface(ctx context.Context, systemInterfaceRequest *system.SystemInterfaceRequest) (resp bool, err error) {
 	return handle.SaveInterface(ctx, systemInterfaceRequest)
@@ -90,123 +105,99 @@ func (s *SystemServiceImpl) CleanCacheSystemInterface(ctx context.Context, syste
 	return handle.CleanCacheInterface(ctx, systemInterfaceRequest)
 }
 
-// QuerySystemMenuPage implements the SystemServiceImpl interface.
-func (s *SystemServiceImpl) QuerySystemMenuPage(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp *system.SystemMenuPageResponse, err error) {
-	// TODO: Your code here...
-	return
+// QuerySystemMenuTree implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemMenuTree(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp []*system.SystemMenuResponse, err error) {
+	return handle.QueryMenuTree(ctx, systemMenuRequest)
 }
 
 // QuerySystemMenuList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemMenuList(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp []*system.SystemMenuResponse, err error) {
-	// TODO: Your code here...
-	return
-}
-
-// QuerySystemMenuAllTree implements the SystemServiceImpl interface.
-func (s *SystemServiceImpl) QuerySystemMenuAllTree(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp []*system.SystemMenuResponse, err error) {
-	// TODO: Your code here...
-	return
-}
-
-// QuerySystemMenuTree implements the SystemServiceImpl interface.
-func (s *SystemServiceImpl) QuerySystemMenuTree(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp []*system.SystemMenuResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryMenuList(ctx, systemMenuRequest)
 }
 
 // QuerySystemMenu implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemMenu(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp *system.SystemMenuResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryMenu(ctx, systemMenuRequest)
 }
 
 // SaveSystemMenu implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemMenu(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.SaveMenu(ctx, systemMenuRequest)
 }
 
 // UpdateSystemMenu implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemMenu(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateMenu(ctx, systemMenuRequest)
 }
 
 // DeleteSystemMenu implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemMenu(ctx context.Context, systemMenuRequest *system.SystemMenuRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.DeleteMenu(ctx, systemMenuRequest)
 }
 
 // QuerySystemRolePage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemRolePage(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp *system.SystemRolePageResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryRolePage(ctx, systemRoleRequest)
 }
 
 // QuerySystemRole implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemRole(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp *system.SystemRoleResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryRole(ctx, systemRoleRequest)
 }
 
 // SaveSystemRole implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemRole(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.SaveRole(ctx, systemRoleRequest)
 }
 
 // UpdateSystemRole implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemRole(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateRole(ctx, systemRoleRequest)
 }
 
 // DeleteSystemRole implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemRole(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.DeleteRole(ctx, systemRoleRequest)
 }
 
 // SaveSystemRoleMenu implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemRoleMenu(ctx context.Context, systemRoleMenuRequest *system.SystemRoleMenuRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.SaveRoleMenu(ctx, systemRoleMenuRequest)
 }
 
 // UpdateSystemRoleMenu implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) UpdateSystemRoleMenu(ctx context.Context, systemRoleMenuRequest *system.SystemRoleMenuRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.UpdateRoleMenu(ctx, systemRoleMenuRequest)
 }
 
 // QuerySystemRoleUserPage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemRoleUserPage(ctx context.Context, systemRoleUserRequest *system.SystemRoleUserRequest) (resp *system.SystemRoleUserPageResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QuerySystemRoleUserPage(ctx, systemRoleUserRequest)
 }
 
 // QuerySystemRoleUserList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemRoleUserList(ctx context.Context, systemRoleUserRequest *system.SystemRoleUserRequest) (resp []*system.SystemRoleUserResponse, err error) {
-	// TODO: Your code here...
-	return
+	return handle.QueryRoleUserList(ctx, systemRoleUserRequest)
 }
 
 // SaveSystemRoleUser implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) SaveSystemRoleUser(ctx context.Context, systemRoleUserRequest *system.SystemRoleUserRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.SaveRoleUser(ctx, systemRoleUserRequest)
 }
 
 // CancelSystemRoleUser implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) CancelSystemRoleUser(ctx context.Context, systemRoleUserRequest *system.SystemRoleUserRequest) (resp bool, err error) {
-	// TODO: Your code here...
-	return
+	return handle.CancelRoleUser(ctx, systemRoleUserRequest)
 }
 
 // QuerySystemTemplatePage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemTemplatePage(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp *system.SystemTemplatePageResponse, err error) {
 	return handle.QueryTemplatePage(ctx, systemTemplateRequest)
+}
+
+// QuerySystemTemplate implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp *system.SystemTemplateResponse, err error) {
+	return handle.QueryTemplate(ctx, systemTemplateRequest)
 }
 
 // SaveSystemTemplate implements the SystemServiceImpl interface.

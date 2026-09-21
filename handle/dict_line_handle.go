@@ -16,53 +16,53 @@ func QueryDictLineList(ctx context.Context, req *system.SystemDictLineRequest) (
 	return service.QueryDictLineList(ctx, req)
 }
 
+func QueryDictLine(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp *system.SystemDictLineResponse, err error) {
+	return service.QueryDictLine(ctx, systemDictLineRequest)
+}
+
 func CreateDictLine(ctx context.Context, req *system.SystemDictLineRequest) (resp bool, err error) {
-	if req.DictType == "" {
-		return false, errors.New("dictType is required")
-	}
-	if req.DictCode == "" {
-		return false, errors.New("dictCode is required")
-	}
-	if req.DictValue == "" {
-		return false, errors.New("dictValue is required")
-	}
-	if req.DictSort == nil {
-		return false, errors.New("dictSort is required")
-	}
-	if req.Status == nil {
-		return false, errors.New("status is required")
+	if err = checkDictLineCreate(req); err != nil {
+		return false, err
 	}
 	return service.CreateDictLine(ctx, req)
 }
 
 func UpdateDictLine(ctx context.Context, req *system.SystemDictLineRequest) (resp bool, err error) {
-	if req.Id == nil {
-		return false, errors.New("id is required")
-	}
-	if req.DictType == "" {
-		return false, errors.New("dictType is required")
-	}
-	if req.DictCode == "" {
-		return false, errors.New("dictCode is required")
-	}
-	if req.DictValue == "" {
-		return false, errors.New("dictValue is required")
-	}
-	if req.DictSort == nil {
-		return false, errors.New("dictSort is required")
-	}
-	if req.Status == nil {
-		return false, errors.New("status is required")
+	if err = checkDictLineUpdate(req); err != nil {
+		return false, err
 	}
 	return service.UpdateDictLine(ctx, req)
 }
 
 func DeleteDictLine(ctx context.Context, req *system.SystemDictLineRequest) (resp bool, err error) {
-	if req.Id == nil {
+	if req.GetIdList() == nil || len(req.GetIdList()) == 0 {
 		return false, errors.New("id is required")
 	}
-	if req.IsDelete == nil {
-		return false, errors.New("isDelete is required")
-	}
 	return service.DeleteDictLine(ctx, req)
+}
+
+func checkDictLineUpdate(req *system.SystemDictLineRequest) error {
+	if req.Id == nil {
+		return errors.New("id is required")
+	}
+	return checkDictLineCreate(req)
+}
+
+func checkDictLineCreate(req *system.SystemDictLineRequest) error {
+	if req.DictType == "" {
+		return errors.New("dictType is required")
+	}
+	if req.DictCode == "" {
+		return errors.New("dictCode is required")
+	}
+	if req.DictValue == "" {
+		return errors.New("dictValue is required")
+	}
+	if req.DictSort == nil {
+		return errors.New("dictSort is required")
+	}
+	if req.Status == nil {
+		return errors.New("status is required")
+	}
+	return nil
 }

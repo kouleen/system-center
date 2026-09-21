@@ -12,6 +12,10 @@ func QueryTemplatePage(ctx context.Context, req *system.SystemTemplateRequest) (
 	return service.QueryTemplatePage(ctx, req)
 }
 
+func QueryTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp *system.SystemTemplateResponse, err error) {
+	return service.QueryTemplate(ctx, systemTemplateRequest)
+}
+
 func SaveTemplate(ctx context.Context, req *system.SystemTemplateRequest) (bool, error) {
 	if req.TemplateName == "" {
 		return false, errors.New("empty template name")

@@ -6,20 +6,12 @@ import (
 	"github.com/kouleen/common/pkg/mysql"
 	"github.com/kouleen/idl/kitex_gen/system"
 	"github.com/kouleen/system-center/modle"
+	"gorm.io/gorm"
 )
 
 func QueryDictHeaderPage(ctx context.Context, req *system.SystemDictHeaderRequest) (systemDictHeaderList []modle.SystemDictHeader, total int64, err error) {
-	query := mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("is_delete = ?", 0)
-	if req.DictType != "" {
-		query = query.Where("dict_type = ?", req.DictType)
-	}
-	if req.Status != nil {
-		query = query.Where("status = ?", *req.Status)
-	}
-	if req.DictName != "" {
-		query = query.Where("dict_name like ?", "%"+req.DictName+"%")
-	}
-	if err = query.Count(&total).Error; err != nil {
+	query := getDictHeaderQuery(ctx, req)
+	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
 	query = query.Order("create_time desc")
@@ -27,10 +19,10 @@ func QueryDictHeaderPage(ctx context.Context, req *system.SystemDictHeaderReques
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&systemDictHeaderList).Error; err != nil {
 		return
 	}
-	return systemDictHeaderList, total, nil
+	return
 }
 
-func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderRequest) (systemDictHeaderList []modle.SystemDictHeader, err error) {
+func getDictHeaderQuery(ctx context.Context, req *system.SystemDictHeaderRequest) *gorm.DB {
 	query := mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("is_delete = ?", 0)
 	if req.DictType != "" {
 		query = query.Where("dict_type = ?", req.DictType)
@@ -41,6 +33,11 @@ func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderReques
 	if req.DictName != "" {
 		query = query.Where("dict_name like ?", "%"+req.DictName+"%")
 	}
+	return query
+}
+
+func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderRequest) (systemDictHeaderList []modle.SystemDictHeader, err error) {
+	query := getDictHeaderQuery(ctx, req)
 	query = query.Order("create_time desc")
 	if err = query.Find(&systemDictHeaderList).Error; err != nil {
 		return
@@ -49,22 +46,45 @@ func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderReques
 }
 
 func QueryDictHeaderById(ctx context.Context, id int64) (systemDictHeader *modle.SystemDictHeader, err error) {
-	if err = mysql.GetReadMysqlDDB().WithContext(ctx).First(&systemDictHeader, id).Error; err != nil {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).First(&systemDictHeader, id).Error; err != nil {
+		return
+	}
+	return
+}
+
+func QueryDictHeaderByIdList(ctx context.Context, ids []int64) (systemDictHeaderList []*modle.SystemDictHeader, err error) {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("id in (?)", ids).Find(&systemDictHeaderList).Error; err != nil {
 		return
 	}
 	return
 }
 
 func CreateDictHeader(ctx context.Context, entity *modle.SystemDictHeader) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Create(entity).Error; err != nil {
-		return
-	}
-	return nil
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Create(entity).Error
+}
+
+func BatchCreateDictHeader(ctx context.Context, entityList []*modle.SystemDictHeader) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Transaction(func(tx *gorm.DB) error {
+		for _, header := range entityList {
+			if err = tx.Create(header).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 }
 
 func UpdateDictHeader(ctx context.Context, entity *modle.SystemDictHeader) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Where("id = ?", entity.ID).Updates(entity).Error; err != nil {
-		return
-	}
-	return nil
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("id = ?", entity.ID).Updates(entity).Error
+}
+
+func BatchUpdateDictHeader(ctx context.Context, entityList []*modle.SystemDictHeader) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Transaction(func(tx *gorm.DB) error {
+		for _, header := range entityList {
+			if err = tx.Where("id = ?", header.ID).Updates(header).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 }

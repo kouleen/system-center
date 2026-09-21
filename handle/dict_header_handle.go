@@ -16,41 +16,47 @@ func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderReques
 	return service.QueryDictHeaderList(ctx, req)
 }
 
+func QueryDictHeader(ctx context.Context, systemDictHeaderRequest *system.SystemDictHeaderRequest) (resp *system.SystemDictHeaderResponse, err error) {
+	return service.QueryDictHeader(ctx, systemDictHeaderRequest)
+}
+
 func CreateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) (resp bool, err error) {
-	if req.DictName == "" {
-		return false, errors.New("dict name is required")
-	}
-	if req.DictType == "" {
-		return false, errors.New("dict type is required")
-	}
-	if req.Status == nil {
-		return false, errors.New("status is required")
+	if err = checkDictHeaderCreate(req); err != nil {
+		return false, err
 	}
 	return service.CreateDictHeader(ctx, req)
 }
 
 func UpdateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) (resp bool, err error) {
-	if req.Id != nil {
-		return false, errors.New("id is required")
-	}
-	if req.DictName == "" {
-		return false, errors.New("dict name is required")
-	}
-	if req.DictType == "" {
-		return false, errors.New("dict type is required")
-	}
-	if req.Status == nil {
-		return false, errors.New("status is required")
+	if err = checkDictHeaderUpdate(req); err != nil {
+		return false, err
 	}
 	return service.UpdateDictHeader(ctx, req)
 }
 
 func DeleteDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) (resp bool, err error) {
-	if req.Id == nil {
+	if req.GetIdList() == nil || len(req.GetIdList()) == 0 {
 		return false, errors.New("id is required")
 	}
-	if req.IsDelete == nil {
-		return false, errors.New("isDelete is required")
-	}
 	return service.DeleteDictHeader(ctx, req)
+}
+
+func checkDictHeaderUpdate(req *system.SystemDictHeaderRequest) error {
+	if req.Id == nil {
+		return errors.New("id is required")
+	}
+	return checkDictHeaderCreate(req)
+}
+
+func checkDictHeaderCreate(req *system.SystemDictHeaderRequest) error {
+	if req.GetDictName() == "" {
+		return errors.New("dict name is required")
+	}
+	if req.GetDictType() == "" {
+		return errors.New("dict type is required")
+	}
+	if req.Status == nil {
+		return errors.New("status is required")
+	}
+	return nil
 }

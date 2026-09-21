@@ -17,25 +17,7 @@ func QueryDictLinePage(ctx context.Context, req *system.SystemDictLineRequest) (
 	}
 	records := make([]*system.SystemDictLineResponse, len(list))
 	for index, dictLine := range list {
-		var updateTime int64
-		if dictLine.UpdateTime != nil {
-			updateTime = dictLine.UpdateTime.UnixMilli()
-		}
-		records[index] = &system.SystemDictLineResponse{
-			Id:         dictLine.ID,
-			DictCode:   dictLine.DictCode,
-			DictValue:  dictLine.DictValue,
-			DictSort:   dictLine.DictSort,
-			DictType:   dictLine.DictType,
-			ListClass:  dictLine.ListClass,
-			Status:     int8(dictLine.Status),
-			Remark:     dictLine.Remark,
-			IsDelete:   int8(dictLine.IsDelete),
-			CreatedBy:  dictLine.CreatedBy,
-			UpdatedBy:  dictLine.UpdatedBy,
-			CreateTime: dictLine.CreateTime.UnixMilli(),
-			UpdateTime: updateTime,
-		}
+		records[index] = dictLine.ConvertResp()
 	}
 	return &system.SystemDictLinePageResponse{
 		Total:   total,
@@ -50,27 +32,17 @@ func QueryDictLineList(ctx context.Context, req *system.SystemDictLineRequest) (
 	}
 	records := make([]*system.SystemDictLineResponse, len(list))
 	for index, dictLine := range list {
-		var updateTime int64
-		if dictLine.UpdateTime != nil {
-			updateTime = dictLine.UpdateTime.UnixMilli()
-		}
-		records[index] = &system.SystemDictLineResponse{
-			Id:         dictLine.ID,
-			DictCode:   dictLine.DictCode,
-			DictValue:  dictLine.DictValue,
-			DictSort:   dictLine.DictSort,
-			DictType:   dictLine.DictType,
-			ListClass:  dictLine.ListClass,
-			Status:     int8(dictLine.Status),
-			Remark:     dictLine.Remark,
-			IsDelete:   int8(dictLine.IsDelete),
-			CreatedBy:  dictLine.CreatedBy,
-			UpdatedBy:  dictLine.UpdatedBy,
-			CreateTime: dictLine.CreateTime.UnixMilli(),
-			UpdateTime: updateTime,
-		}
+		records[index] = dictLine.ConvertResp()
 	}
 	return records, nil
+}
+
+func QueryDictLine(ctx context.Context, systemDictLineRequest *system.SystemDictLineRequest) (resp *system.SystemDictLineResponse, err error) {
+	systemDictLine, err := repository.QueryDictLineById(ctx, systemDictLineRequest.GetId())
+	if err != nil {
+		return
+	}
+	return systemDictLine.ConvertResp(), nil
 }
 
 func CreateDictLine(ctx context.Context, req *system.SystemDictLineRequest) (resp bool, err error) {
@@ -81,13 +53,13 @@ func CreateDictLine(ctx context.Context, req *system.SystemDictLineRequest) (res
 	id := node.Generate().Int64()
 	line := &modle.SystemDictLine{
 		ID:        id,
-		DictCode:  req.DictCode,
-		DictValue: req.DictValue,
-		DictSort:  *req.DictSort,
-		DictType:  req.DictType,
-		ListClass: req.ListClass,
-		Status:    uint8(*req.Status),
-		Remark:    req.Remark,
+		DictCode:  req.GetDictCode(),
+		DictValue: req.GetDictValue(),
+		DictSort:  req.DictSort,
+		DictType:  req.GetDictType(),
+		ListClass: req.GetListClass(),
+		Status:    req.Status,
+		Remark:    req.GetRemark(),
 		CreatedBy: ctxutil.GetUserId(ctx),
 	}
 	if err = repository.CreateDictLine(ctx, line); err != nil {
@@ -103,10 +75,10 @@ func UpdateDictLine(ctx context.Context, req *system.SystemDictLineRequest) (res
 	}
 	line.DictCode = req.DictCode
 	line.DictValue = req.DictValue
-	line.DictSort = *req.DictSort
+	line.DictSort = req.DictSort
 	line.DictType = req.DictType
 	line.ListClass = req.ListClass
-	line.Status = uint8(*req.Status)
+	line.Status = req.Status
 	line.Remark = req.Remark
 	line.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateDictLine(ctx, line); err != nil {
@@ -120,7 +92,7 @@ func DeleteDictLine(ctx context.Context, req *system.SystemDictLineRequest) (res
 	if err != nil {
 		return false, err
 	}
-	line.IsDelete = uint8(*req.IsDelete)
+	line.IsDelete = req.IsDelete
 	line.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateDictLine(ctx, line); err != nil {
 		return false, err
