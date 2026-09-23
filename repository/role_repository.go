@@ -43,3 +43,14 @@ func QueryRoleById(ctx context.Context, id int64) (resp *modle.SystemRole, err e
 	}
 	return
 }
+
+func QueryRoleByIdList(ctx context.Context, ids []int64) (resp []*modle.SystemRole, err error) {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(new(modle.SystemRole)).Where("id in (?)", ids).Find(&resp).Error; err != nil {
+		return
+	}
+	return
+}
+
+func UpdateRole(ctx context.Context, entity *modle.SystemRole) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(entity).Where("id = ?", entity.ID).Updates(entity).Error
+}

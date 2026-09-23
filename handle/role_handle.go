@@ -30,32 +30,52 @@ func UpdateRole(ctx context.Context, req *system.SystemRoleRequest) (resp bool, 
 	return service.UpdateRole(ctx, req)
 }
 
+func UpdateRoleStatus(ctx context.Context, req *system.SystemRoleRequest) (resp bool, err error) {
+	if err = checkUpdateRole(req); err != nil {
+		return
+	}
+	return service.UpdateRoleStatus(ctx, req)
+}
+
 func DeleteRole(ctx context.Context, req *system.SystemRoleRequest) (resp bool, err error) {
-	return
+	if req.GetIdList() == nil || len(req.GetIdList()) == 0 {
+		return false, errors.New("id_list is required")
+	}
+	return service.DeleteRole(ctx, req)
 }
 
-func SaveRoleMenu(ctx context.Context, req *system.SystemRoleMenuRequest) (resp bool, err error) {
-	return
-}
-
-func UpdateRoleMenu(ctx context.Context, req *system.SystemRoleMenuRequest) (resp bool, err error) {
-	return
-}
-
-func QuerySystemRoleUserPage(ctx context.Context, req *system.SystemRoleUserRequest) (resp *system.SystemRoleUserPageResponse, err error) {
-	return
+func QueryRoleUserPage(ctx context.Context, req *system.SystemRoleUserRequest) (resp *system.SystemRoleUserPageResponse, err error) {
+	if req.RoleId == nil {
+		return nil, errors.New("role_id is required")
+	}
+	return service.QueryRoleUserPage(ctx, req)
 }
 
 func QueryRoleUserList(ctx context.Context, req *system.SystemRoleUserRequest) (resp []*system.SystemRoleUserResponse, err error) {
-	return
+	if req.RoleId == nil {
+		return nil, errors.New("role_id is required")
+	}
+	return service.QueryRoleUserList(ctx, req)
 }
 
 func SaveRoleUser(ctx context.Context, req *system.SystemRoleUserRequest) (resp bool, err error) {
-	return
+	if req.RoleId == nil {
+		return false, errors.New("role_id is required")
+	}
+	if len(req.GetUserIdList()) == 0 {
+		return false, errors.New("user_id_list is required")
+	}
+	return service.SaveRoleUser(ctx, req)
 }
 
 func CancelRoleUser(ctx context.Context, req *system.SystemRoleUserRequest) (resp bool, err error) {
-	return
+	if req.RoleId == nil {
+		return false, errors.New("role_id is required")
+	}
+	if req.GetUserIdList() == nil {
+		return false, errors.New("user_id_list is required")
+	}
+	return service.CancelRoleUser(ctx, req)
 }
 
 func checkUpdateRole(req *system.SystemRoleRequest) error {

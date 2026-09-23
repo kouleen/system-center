@@ -1,6 +1,10 @@
 package modle
 
-import "time"
+import (
+	"time"
+
+	"github.com/kouleen/idl/kitex_gen/system"
+)
 
 type SystemRoleUser struct {
 	ID         int64      `json:"id,string" gorm:"column:id;primary_key;not null"`
@@ -13,6 +17,18 @@ type SystemRoleUser struct {
 	UpdateTime *time.Time `json:"updateTime" gorm:"column:update_time;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 }
 
-func (SystemRoleUser) TableName() string {
+func (p *SystemRoleUser) TableName() string {
 	return "system_role_user"
+}
+
+func (p *SystemRoleUser) ConvertResp() *system.SystemRoleUserResponse {
+	return &system.SystemRoleUserResponse{
+		Id:         p.ID,
+		RoleId:     p.RoleId,
+		UserId:     p.UserId,
+		Remark:     p.Remark,
+		CreatedBy:  p.CreatedBy,
+		UpdatedBy:  p.UpdatedBy,
+		CreateTime: p.CreateTime.UnixMilli(),
+	}
 }

@@ -23,6 +23,10 @@ func (p *SystemEducation) TableName() string {
 }
 
 func (p *SystemEducation) ConvertResp() *system.SystemEducationResponse {
+	var updateTime int64
+	if p.UpdateTime != nil {
+		updateTime = p.UpdateTime.Unix()
+	}
 	return &system.SystemEducationResponse{
 		Id:         p.ID,
 		Title:      p.Title,
@@ -32,5 +36,6 @@ func (p *SystemEducation) ConvertResp() *system.SystemEducationResponse {
 		CreatedBy:  p.CreatedBy,
 		UpdatedBy:  p.UpdatedBy,
 		CreateTime: p.CreateTime.UnixMilli(),
+		UpdateTime: updateTime,
 	}
 }

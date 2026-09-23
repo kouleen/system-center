@@ -155,24 +155,18 @@ func (s *SystemServiceImpl) UpdateSystemRole(ctx context.Context, systemRoleRequ
 	return handle.UpdateRole(ctx, systemRoleRequest)
 }
 
+func (s *SystemServiceImpl) UpdateSystemRoleStatus(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp bool, err error) {
+	return handle.UpdateRoleStatus(ctx, systemRoleRequest)
+}
+
 // DeleteSystemRole implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemRole(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp bool, err error) {
 	return handle.DeleteRole(ctx, systemRoleRequest)
 }
 
-// SaveSystemRoleMenu implements the SystemServiceImpl interface.
-func (s *SystemServiceImpl) SaveSystemRoleMenu(ctx context.Context, systemRoleMenuRequest *system.SystemRoleMenuRequest) (resp bool, err error) {
-	return handle.SaveRoleMenu(ctx, systemRoleMenuRequest)
-}
-
-// UpdateSystemRoleMenu implements the SystemServiceImpl interface.
-func (s *SystemServiceImpl) UpdateSystemRoleMenu(ctx context.Context, systemRoleMenuRequest *system.SystemRoleMenuRequest) (resp bool, err error) {
-	return handle.UpdateRoleMenu(ctx, systemRoleMenuRequest)
-}
-
 // QuerySystemRoleUserPage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemRoleUserPage(ctx context.Context, systemRoleUserRequest *system.SystemRoleUserRequest) (resp *system.SystemRoleUserPageResponse, err error) {
-	return handle.QuerySystemRoleUserPage(ctx, systemRoleUserRequest)
+	return handle.QueryRoleUserPage(ctx, systemRoleUserRequest)
 }
 
 // QuerySystemRoleUserList implements the SystemServiceImpl interface.

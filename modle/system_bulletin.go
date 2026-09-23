@@ -24,6 +24,10 @@ func (p *SystemBulletin) TableName() string {
 }
 
 func (p *SystemBulletin) ConvertResp() *system.SystemBulletinResponse {
+	var updateTime int64
+	if p.UpdateTime != nil {
+		updateTime = p.UpdateTime.Unix()
+	}
 	return &system.SystemBulletinResponse{
 		Id:         p.ID,
 		Title:      p.Title,
@@ -34,5 +38,6 @@ func (p *SystemBulletin) ConvertResp() *system.SystemBulletinResponse {
 		CreatedBy:  p.CreatedBy,
 		UpdatedBy:  p.UpdatedBy,
 		CreateTime: p.CreateTime.UnixMilli(),
+		UpdateTime: updateTime,
 	}
 }
