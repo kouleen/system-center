@@ -6,11 +6,21 @@ import (
 	"github.com/kouleen/common/pkg/mysql"
 	"github.com/kouleen/idl/kitex_gen/system"
 	"github.com/kouleen/system-center/modle"
+	"github.com/kouleen/system-center/utils"
 	"gorm.io/gorm"
 )
 
 func QueryDictHeaderPage(ctx context.Context, req *system.SystemDictHeaderRequest) (systemDictHeaderList []modle.SystemDictHeader, total int64, err error) {
 	query := getDictHeaderQuery(ctx, req)
+	if req.Params != nil {
+		if req.GetParams().GetBeginTime() != "" && req.GetParams().GetEndTime() != "" {
+			startUTC, endUTC, err := utils.DateToLocalRange(req.GetParams().GetBeginTime(), req.GetParams().GetEndTime())
+			if err != nil {
+				return nil, 0, err
+			}
+			query = query.Where("create_time between ? and ?", startUTC, endUTC)
+		}
+	}
 	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
@@ -38,6 +48,15 @@ func getDictHeaderQuery(ctx context.Context, req *system.SystemDictHeaderRequest
 
 func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderRequest) (systemDictHeaderList []modle.SystemDictHeader, err error) {
 	query := getDictHeaderQuery(ctx, req)
+	if req.Params != nil {
+		if req.GetParams().GetBeginTime() != "" && req.GetParams().GetEndTime() != "" {
+			startUTC, endUTC, err := utils.DateToLocalRange(req.GetParams().GetBeginTime(), req.GetParams().GetEndTime())
+			if err != nil {
+				return nil, err
+			}
+			query = query.Where("create_time between ? and ?", startUTC, endUTC)
+		}
+	}
 	query = query.Order("create_time desc")
 	if err = query.Find(&systemDictHeaderList).Error; err != nil {
 		return
@@ -64,9 +83,9 @@ func CreateDictHeader(ctx context.Context, entity *modle.SystemDictHeader) (err 
 }
 
 func BatchCreateDictHeader(ctx context.Context, entityList []*modle.SystemDictHeader) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Transaction(func(tx *gorm.DB) error {
-		for _, header := range entityList {
-			if err = tx.Create(header).Error; err != nil {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if len(entityList) > 0 {
+			if err = tx.Model(&modle.SystemDictHeader{}).Create(entityList).Error; err != nil {
 				return err
 			}
 		}
@@ -79,9 +98,9 @@ func UpdateDictHeader(ctx context.Context, entity *modle.SystemDictHeader) (err 
 }
 
 func BatchUpdateDictHeader(ctx context.Context, entityList []*modle.SystemDictHeader) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Transaction(func(tx *gorm.DB) error {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		for _, header := range entityList {
-			if err = tx.Where("id = ?", header.ID).Updates(header).Error; err != nil {
+			if err = tx.Model(&modle.SystemDictHeader{}).Where("id = ?", header.ID).Updates(header).Error; err != nil {
 				return err
 			}
 		}

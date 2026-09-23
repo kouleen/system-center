@@ -214,3 +214,53 @@ func (s *SystemServiceImpl) UpdateSystemTemplate(ctx context.Context, systemTemp
 func (s *SystemServiceImpl) DeleteSystemTemplate(ctx context.Context, systemTemplateRequest *system.SystemTemplateRequest) (resp bool, err error) {
 	return handle.DeleteTemplate(ctx, systemTemplateRequest)
 }
+
+// QuerySystemBulletinPage implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemBulletinPage(ctx context.Context, systemBulletinRequest *system.SystemBulletinRequest) (resp *system.SystemBulletinPageResponse, err error) {
+	return handle.QueryBulletinPage(ctx, systemBulletinRequest)
+}
+
+// QuerySystemBulletin implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemBulletin(ctx context.Context, systemBulletinRequest *system.SystemBulletinRequest) (resp *system.SystemBulletinResponse, err error) {
+	return handle.QueryBulletin(ctx, systemBulletinRequest)
+}
+
+// SaveSystemBulletin implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) SaveSystemBulletin(ctx context.Context, systemBulletinRequest *system.SystemBulletinRequest) (resp bool, err error) {
+	return handle.SaveBulletin(ctx, systemBulletinRequest)
+}
+
+// UpdateSystemBulletin implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) UpdateSystemBulletin(ctx context.Context, systemBulletinRequest *system.SystemBulletinRequest) (resp bool, err error) {
+	return handle.UpdateBulletin(ctx, systemBulletinRequest)
+}
+
+// DeleteSystemBulletin implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) DeleteSystemBulletin(ctx context.Context, systemBulletinRequest *system.SystemBulletinRequest) (resp bool, err error) {
+	return handle.DeleteBulletin(ctx, systemBulletinRequest)
+}
+
+// QuerySystemEducationPage implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemEducationPage(ctx context.Context, systemEducationRequest *system.SystemEducationRequest) (resp *system.SystemEducationPageResponse, err error) {
+	return handle.QueryEducationPage(ctx, systemEducationRequest)
+}
+
+// QuerySystemEducation implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemEducation(ctx context.Context, systemEducationRequest *system.SystemEducationRequest) (resp *system.SystemEducationResponse, err error) {
+	return handle.QueryEducation(ctx, systemEducationRequest)
+}
+
+// SaveSystemEducation implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) SaveSystemEducation(ctx context.Context, systemEducationRequest *system.SystemEducationRequest) (resp bool, err error) {
+	return handle.SaveEducation(ctx, systemEducationRequest)
+}
+
+// UpdateSystemEducation implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) UpdateSystemEducation(ctx context.Context, systemEducationRequest *system.SystemEducationRequest) (resp bool, err error) {
+	return handle.UpdateEducation(ctx, systemEducationRequest)
+}
+
+// DeleteSystemEducation implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) DeleteSystemEducation(ctx context.Context, systemEducationRequest *system.SystemEducationRequest) (resp bool, err error) {
+	return handle.DeleteEducation(ctx, systemEducationRequest)
+}

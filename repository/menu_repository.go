@@ -55,9 +55,9 @@ func CreateMenu(ctx context.Context, entity *modle.SystemMenu) (err error) {
 }
 
 func BatchCreateMenu(ctx context.Context, entityList []*modle.SystemMenu) (err error) {
-	return mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Transaction(func(tx *gorm.DB) error {
-		for _, menu := range entityList {
-			if err = tx.Create(menu).Error; err != nil {
+	return mysql.GetReadMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if len(entityList) > 0 {
+			if err = tx.Model(&modle.SystemMenu{}).Create(entityList).Error; err != nil {
 				return err
 			}
 		}
@@ -70,9 +70,9 @@ func UpdateMenu(ctx context.Context, entity *modle.SystemMenu) (err error) {
 }
 
 func BatchUpdateMenu(ctx context.Context, entityList []*modle.SystemMenu) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Transaction(func(tx *gorm.DB) error {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		for _, menu := range entityList {
-			if err = tx.Where("id = ?", menu.ID).Updates(menu).Error; err != nil {
+			if err = tx.Model(&modle.SystemMenu{}).Where("id = ?", menu.ID).Updates(menu).Error; err != nil {
 				return err
 			}
 		}
