@@ -6,13 +6,12 @@ import (
 	"github.com/kouleen/common/middleware"
 	"github.com/kouleen/idl/kitex_gen/rpc"
 	"github.com/kouleen/idl/kitex_gen/system/systemservice"
+	_ "github.com/kouleen/system-center/message"
 )
 
 func main() {
 	// etcd注册中心
 	bootstrap.Run(rpc.SYSTEM_RPC_SERVER, func(option ...server.Option) server.Server {
 		return systemservice.NewServer(new(SystemServiceImpl), option...)
-	},
-		bootstrap.WithServerMiddleware(middleware.RpcServerMiddleware),
-	)
+	}, bootstrap.WithServerMiddleware(middleware.RpcServerMiddleware))
 }

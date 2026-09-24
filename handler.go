@@ -258,3 +258,15 @@ func (s *SystemServiceImpl) UpdateSystemEducation(ctx context.Context, systemEdu
 func (s *SystemServiceImpl) DeleteSystemEducation(ctx context.Context, systemEducationRequest *system.SystemEducationRequest) (resp bool, err error) {
 	return handle.DeleteEducation(ctx, systemEducationRequest)
 }
+
+func (s *SystemServiceImpl) QuerySystemLoginLogPage(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp *system.SystemLoginLogPageResponse, err error) {
+	return handle.QueryLoginLogPage(ctx, systemLoginLogRequest)
+}
+
+func (s *SystemServiceImpl) ForcedRetreatSystemLoginLog(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp bool, err error) {
+	return handle.ForcedRetreatLoginLog(ctx, systemLoginLogRequest)
+}
+
+func (s *SystemServiceImpl) DeleteSystemLoginLog(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp bool, err error) {
+	return handle.DeleteLoginLog(ctx, systemLoginLogRequest)
+}

@@ -66,13 +66,13 @@ func BatchCreateMenu(ctx context.Context, entityList []*modle.SystemMenu) (err e
 }
 
 func UpdateMenu(ctx context.Context, entity *modle.SystemMenu) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Where("id = ?", entity.ID).Updates(entity).Error
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Where("id = ?", entity.ID).Save(entity).Error
 }
 
 func BatchUpdateMenu(ctx context.Context, entityList []*modle.SystemMenu) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		for _, menu := range entityList {
-			if err = tx.Model(&modle.SystemMenu{}).Where("id = ?", menu.ID).Updates(menu).Error; err != nil {
+			if err = tx.Model(&modle.SystemMenu{}).Where("id = ?", menu.ID).Save(menu).Error; err != nil {
 				return err
 			}
 		}

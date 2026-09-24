@@ -63,7 +63,7 @@ func CreateDictLine(ctx context.Context, entity *modle.SystemDictLine) (err erro
 }
 
 func UpdateDictLine(ctx context.Context, entity *modle.SystemDictLine) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Where("id = ?", entity.ID).Updates(entity).Error; err != nil {
+	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Where("id = ?", entity.ID).Save(entity).Error; err != nil {
 		return err
 	}
 	return nil

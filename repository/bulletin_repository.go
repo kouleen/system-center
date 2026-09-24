@@ -71,13 +71,13 @@ func BatchCreateBulletin(ctx context.Context, entityList []*modle.SystemBulletin
 }
 
 func UpdateBulletin(ctx context.Context, entity *modle.SystemBulletin) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Where("id = ?", entity.ID).Updates(entity).Error
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Where("id = ?", entity.ID).Save(entity).Error
 }
 
 func BatchUpdateBulletin(ctx context.Context, entityList []*modle.SystemBulletin) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		for _, item := range entityList {
-			if err = tx.Model(&modle.SystemBulletin{}).Where("id = ?", item.ID).Updates(item).Error; err != nil {
+			if err = tx.Model(&modle.SystemBulletin{}).Where("id = ?", item.ID).Save(item).Error; err != nil {
 				return err
 			}
 		}

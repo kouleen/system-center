@@ -45,7 +45,7 @@ func CreateTemplate(ctx context.Context, entity *modle.SystemTemplate) (err erro
 }
 
 func UpdateTemplate(ctx context.Context, entity *modle.SystemTemplate) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", entity.ID).Updates(entity).Error; err != nil {
+	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", entity.ID).Save(entity).Error; err != nil {
 		return
 	}
 	return

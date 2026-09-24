@@ -64,13 +64,13 @@ func BatchCrateEducation(ctx context.Context, entityList []*modle.SystemEducatio
 }
 
 func UpdateEducation(ctx context.Context, entity *modle.SystemEducation) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Where("id = ?", entity.ID).Updates(entity).Error
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Where("id = ?", entity.ID).Save(entity).Error
 }
 
 func BatchUpdateEducation(ctx context.Context, entityList []*modle.SystemEducation) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		for _, education := range entityList {
-			if err = tx.Model(new(modle.SystemEducation)).Where("id = ?", education.ID).Updates(education).Error; err != nil {
+			if err = tx.Model(new(modle.SystemEducation)).Where("id = ?", education.ID).Save(education).Error; err != nil {
 				return err
 			}
 		}

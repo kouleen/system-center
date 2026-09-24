@@ -52,5 +52,5 @@ func QueryRoleByIdList(ctx context.Context, ids []int64) (resp []*modle.SystemRo
 }
 
 func UpdateRole(ctx context.Context, entity *modle.SystemRole) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(entity).Where("id = ?", entity.ID).Updates(entity).Error
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(entity).Where("id = ?", entity.ID).Save(entity).Error
 }

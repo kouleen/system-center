@@ -31,7 +31,7 @@ func CreateRoleMenu(ctx context.Context, systemRole *modle.SystemRole, systemRol
 
 func UpdateRoleMenu(ctx context.Context, systemRole *modle.SystemRole, systemRoleMenus []*modle.SystemRoleMenu) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		if err = tx.Model(&modle.SystemRole{}).Where("id = ?", systemRole.ID).Updates(systemRole).Error; err != nil {
+		if err = tx.Model(&modle.SystemRole{}).Where("id = ?", systemRole.ID).Save(systemRole).Error; err != nil {
 			return err
 		}
 		if err = tx.Where("role_id = ?", systemRole.ID).Delete(&modle.SystemRoleMenu{}).Error; err != nil {
@@ -55,7 +55,7 @@ func DeleteRoleMenu(ctx context.Context, roleIdList []int64, systemRoleList []*m
 		}
 		if len(systemRoleList) > 0 {
 			for _, role := range systemRoleList {
-				if err = tx.Model(&modle.SystemRole{}).Where("id = ?", role.ID).Updates(role).Error; err != nil {
+				if err = tx.Model(&modle.SystemRole{}).Where("id = ?", role.ID).Save(role).Error; err != nil {
 					return err
 				}
 			}

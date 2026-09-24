@@ -94,13 +94,13 @@ func BatchCreateDictHeader(ctx context.Context, entityList []*modle.SystemDictHe
 }
 
 func UpdateDictHeader(ctx context.Context, entity *modle.SystemDictHeader) (err error) {
-	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("id = ?", entity.ID).Updates(entity).Error
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("id = ?", entity.ID).Save(entity).Error
 }
 
 func BatchUpdateDictHeader(ctx context.Context, entityList []*modle.SystemDictHeader) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		for _, header := range entityList {
-			if err = tx.Model(&modle.SystemDictHeader{}).Where("id = ?", header.ID).Updates(header).Error; err != nil {
+			if err = tx.Model(&modle.SystemDictHeader{}).Where("id = ?", header.ID).Save(header).Error; err != nil {
 				return err
 			}
 		}
