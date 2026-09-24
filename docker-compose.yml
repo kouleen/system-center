@@ -1,6 +1,6 @@
 services:
   system-center:
-    image: kouleen/system-center:latest
+    image: ghcr.io/kouleen/system-center:latest
     container_name: system-center
     environment:
       - ETCD_ENDPOINTS=${ETCD_ENDPOINTS}
@@ -23,6 +23,7 @@ services:
       - MYSQL_SLAVE2_HOST=${MYSQL_SLAVE2_HOST}
       - MYSQL_SLAVE2_PORT=${MYSQL_SLAVE2_PORT}
       - MYSQL_SLAVE2_DATABASE=${MYSQL_SLAVE2_DATABASE}
+      - RABBITMQ_URL=${RABBITMQ_URL}
     networks:
       - etcd-internal
       - mysql-internal
