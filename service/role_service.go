@@ -154,7 +154,10 @@ func QueryRoleUserPage(ctx context.Context, req *system.SystemRoleUserRequest) (
 		return
 	}
 	if len(roleUserList) == 0 {
-		return
+		return &system.SystemRoleUserPageResponse{
+			Total:   int64(len(roleUserList)),
+			Records: make([]*system.SystemRoleUserResponse, 0),
+		}, nil
 	}
 	userIdList := make([]int64, 0, len(roleUserList))
 	for _, roleUser := range roleUserList {
@@ -199,9 +202,6 @@ func QueryRoleUserPage(ctx context.Context, req *system.SystemRoleUserRequest) (
 func QueryRoleUserList(ctx context.Context, req *system.SystemRoleUserRequest) (resp []*system.SystemRoleUserResponse, err error) {
 	itemList, err := repository.QueryRoleUserByRoleId(ctx, req.GetRoleId())
 	if err != nil {
-		return
-	}
-	if len(itemList) == 0 {
 		return
 	}
 	respList := make([]*system.SystemRoleUserResponse, len(itemList))
