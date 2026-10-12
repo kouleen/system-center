@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/kouleen/common/message"
+	"github.com/kouleen/idl/kitex_gen/common"
 	"github.com/kouleen/idl/kitex_gen/system"
 	"github.com/kouleen/system-center/service"
 	"github.com/kouleen/system-center/utils"
@@ -13,7 +14,7 @@ import (
 type LoginLogConsumer struct{}
 
 func (LoginLogConsumer) Queue() string {
-	return "user.login.log.queue"
+	return common.SYSTEM_LOGIN_LOG_QUEUE
 }
 
 func (LoginLogConsumer) HandleMessage(ctx context.Context, msg *message.Message) error {

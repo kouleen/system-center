@@ -270,3 +270,11 @@ func (s *SystemServiceImpl) ForcedRetreatSystemLoginLog(ctx context.Context, sys
 func (s *SystemServiceImpl) DeleteSystemLoginLog(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp bool, err error) {
 	return handle.DeleteLoginLog(ctx, systemLoginLogRequest)
 }
+
+func (s *SystemServiceImpl) QuerySystemOperateLogPage(ctx context.Context, systemOperateLogRequest *system.SystemOperateLogRequest) (r *system.SystemOperateLogPageResponse, err error) {
+	return handle.QueryOperateLogPage(ctx, systemOperateLogRequest)
+}
+
+func (s *SystemServiceImpl) DeleteSystemOperateLog(ctx context.Context, systemOperateLogRequest *system.SystemOperateLogRequest) (r bool, err error) {
+	return handle.DeleteOperateLog(ctx, systemOperateLogRequest)
+}

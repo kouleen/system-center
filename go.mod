@@ -6,9 +6,9 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/bytedance/gopkg v0.1.4
 	github.com/cloudwego/hertz v0.10.6
-	github.com/cloudwego/kitex v0.16.3
-	github.com/kouleen/common v0.0.45
-	github.com/kouleen/idl v0.0.33
+	github.com/cloudwego/kitex v0.16.4
+	github.com/kouleen/common v0.0.58
+	github.com/kouleen/idl v0.0.44
 	gorm.io/gorm v1.31.2
 )
 
@@ -19,13 +19,13 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.6 // indirect
 	github.com/cloudwego/configmanager v0.2.3 // indirect
-	github.com/cloudwego/dynamicgo v0.8.0 // indirect
+	github.com/cloudwego/dynamicgo v0.9.2 // indirect
 	github.com/cloudwego/fastpb v0.0.6 // indirect
 	github.com/cloudwego/frugal v0.3.1 // indirect
-	github.com/cloudwego/gopkg v0.2.0 // indirect
-	github.com/cloudwego/localsession v0.2.1 // indirect
+	github.com/cloudwego/gopkg v0.2.1 // indirect
+	github.com/cloudwego/localsession v0.2.2 // indirect
 	github.com/cloudwego/netpoll v0.7.5 // indirect
-	github.com/cloudwego/runtimex v0.1.1 // indirect
+	github.com/cloudwego/runtimex v0.1.2 // indirect
 	github.com/cloudwego/thriftgo v0.4.5 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
@@ -45,7 +45,6 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kitex-contrib/registry-etcd v0.3.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
-	github.com/luci/go-render v0.0.0-20160219211803-9a04cc21af0f // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
