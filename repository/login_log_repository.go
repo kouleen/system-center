@@ -43,7 +43,7 @@ func QueryLoginLogPage(ctx context.Context, req *system.SystemLoginLogRequest) (
 
 func QueryLoginLogByIdList(ctx context.Context, idList []int64) (resp []*modle.SystemLoginLog, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemLoginLog{}).Where("id in (?)", idList).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

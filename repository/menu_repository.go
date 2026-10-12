@@ -14,7 +14,7 @@ func QueryMenuListByUserId(ctx context.Context, userId int64) (resp []*modle.Sys
 		Joins("INNER JOIN system_role_menu t2 ON t1.id = t2.menu_id").
 		Joins("INNER JOIN system_role_user t3 ON t2.role_id = t3.role_id").
 		Select("t1.*").Where("t1.is_delete = 0 AND t3.user_id = ? order by order_num", userId).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
@@ -38,14 +38,14 @@ func QueryMenuList(ctx context.Context, req *system.SystemMenuRequest) (resp []*
 
 func QueryMenuById(ctx context.Context, id int64) (resp *modle.SystemMenu, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Where("id = ?", id).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func QueryMenuByIdList(ctx context.Context, ids []int64) (resp []*modle.SystemMenu, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Where("id in (?)", ids).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

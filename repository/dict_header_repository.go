@@ -66,14 +66,14 @@ func QueryDictHeaderList(ctx context.Context, req *system.SystemDictHeaderReques
 
 func QueryDictHeaderById(ctx context.Context, id int64) (systemDictHeader *modle.SystemDictHeader, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).First(&systemDictHeader, id).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func QueryDictHeaderByIdList(ctx context.Context, ids []int64) (systemDictHeaderList []*modle.SystemDictHeader, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictHeader{}).Where("id in (?)", ids).Find(&systemDictHeaderList).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

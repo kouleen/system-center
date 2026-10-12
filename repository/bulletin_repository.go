@@ -43,14 +43,14 @@ func QueryBulletinPage(ctx context.Context, req *system.SystemBulletinRequest) (
 
 func QueryBulletinById(ctx context.Context, id int64) (resp *modle.SystemBulletin, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(resp).First(&resp, id).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func QueryBulletinByIdList(ctx context.Context, ids []int64) (resp []*modle.SystemBulletin, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemBulletin{}).Where("id in (?)", ids).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

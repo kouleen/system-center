@@ -72,23 +72,17 @@ func QueryInterfaceList(ctx context.Context, req *system.SystemInterfaceRequest)
 
 func QueryInterfaceById(ctx context.Context, id int64) (systemInterface *modle.SystemInterface, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).First(&systemInterface, id).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func CreateInterface(ctx context.Context, entity *modle.SystemInterface) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Create(entity).Error; err != nil {
-		return
-	}
-	return
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Create(entity).Error
 }
 
 func UpdateInterface(ctx context.Context, entity *modle.SystemInterface) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Where("id = ?", entity.ID).Save(entity).Error; err != nil {
-		return
-	}
-	return
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Where("id = ?", entity.ID).Save(entity).Error
 }
 
 func CleanCacheInterface(ctx context.Context, req *system.SystemInterfaceRequest) (resp bool, err error) {

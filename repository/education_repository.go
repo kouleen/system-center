@@ -37,7 +37,7 @@ func QueryEducationPage(ctx context.Context, req *system.SystemEducationRequest)
 
 func QueryEducationById(ctx context.Context, id int64) (resp *modle.SystemEducation, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(new(modle.SystemEducation)).First(&resp, id).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

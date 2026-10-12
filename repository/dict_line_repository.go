@@ -50,7 +50,7 @@ func QueryDictLineList(ctx context.Context, req *system.SystemDictLineRequest) (
 
 func QueryDictLineById(ctx context.Context, id int64) (systemDictLine *modle.SystemDictLine, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).First(&systemDictLine, id).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

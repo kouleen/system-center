@@ -10,7 +10,7 @@ import (
 
 func QueryRoleMenuByRoleId(ctx context.Context, roleId int64) (resp []*modle.SystemRoleMenu, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Where("role_id = ?", roleId).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

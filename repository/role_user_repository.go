@@ -10,14 +10,14 @@ import (
 
 func QueryRoleUserByRoleId(ctx context.Context, roleId int64) (resp []*modle.SystemRoleUser, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemRoleUser{}).Where("role_id = ?", roleId).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func QueryRoleUserByUserIdList(ctx context.Context, roleId int64, userIdList []int64) (resp []*modle.SystemRoleUser, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemRoleUser{}).Where("role_id = ? AND user_id in (?)", roleId, userIdList).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

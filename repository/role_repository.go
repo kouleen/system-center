@@ -39,14 +39,14 @@ func QueryRolePage(ctx context.Context, req *system.SystemRoleRequest) (resp []*
 
 func QueryRoleById(ctx context.Context, id int64) (resp *modle.SystemRole, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).First(&resp, id).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func QueryRoleByIdList(ctx context.Context, ids []int64) (resp []*modle.SystemRole, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(new(modle.SystemRole)).Where("id in (?)", ids).Find(&resp).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }

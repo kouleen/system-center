@@ -32,21 +32,15 @@ func QueryTemplatePage(ctx context.Context, req *system.SystemTemplateRequest) (
 
 func QueryTemplateById(ctx context.Context, id int64) (entity *modle.SystemTemplate, err error) {
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", id).First(&entity).Error; err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
 func CreateTemplate(ctx context.Context, entity *modle.SystemTemplate) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Create(entity).Error; err != nil {
-		return
-	}
-	return
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Create(entity).Error
 }
 
 func UpdateTemplate(ctx context.Context, entity *modle.SystemTemplate) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", entity.ID).Save(entity).Error; err != nil {
-		return
-	}
-	return
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemTemplate{}).Where("id = ?", entity.ID).Save(entity).Error
 }

@@ -107,7 +107,7 @@ func DeleteMenu(ctx context.Context, req *system.SystemMenuRequest) (resp bool, 
 }
 
 func buildMenuTree(systemMenus []*modle.SystemMenu) []*system.SystemMenuResponse {
-	var treeList []*system.SystemMenuResponse
+	treeList := make([]*system.SystemMenuResponse, 0, len(systemMenus))
 	// 1. 先找出所有一级菜单（ParentId == 0）
 	for _, menu := range systemMenus {
 		if menu.ParentId == 0 {
