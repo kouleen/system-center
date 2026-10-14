@@ -7,16 +7,11 @@ import (
 	"github.com/kouleen/idl/kitex_gen/system"
 	"github.com/kouleen/system-center/modle"
 	"github.com/kouleen/system-center/utils"
+	"gorm.io/gorm"
 )
 
 func QueryRolePage(ctx context.Context, req *system.SystemRoleRequest) (resp []*modle.SystemRole, total int64, err error) {
-	query := mysql.GetReadMysqlDDB().WithContext(ctx).Model(new(modle.SystemRole)).Where("is_delete = 0")
-	if req.Status != nil {
-		query.Where("status = ?", req.GetStatus())
-	}
-	if req.GetRoleName() != "" {
-		query.Where("role_name LIKE ?", "%"+req.GetRoleName()+"%")
-	}
+	query := getRoleQuery(ctx, req)
 	if req.Params != nil {
 		if req.GetParams().GetBeginTime() != "" && req.GetParams().GetEndTime() != "" {
 			startUTC, endUTC, err := utils.DateToLocalRange(req.GetParams().GetBeginTime(), req.GetParams().GetEndTime())
@@ -33,6 +28,26 @@ func QueryRolePage(ctx context.Context, req *system.SystemRoleRequest) (resp []*
 	i := (req.GetCurrent() - 1) * req.GetSize()
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&resp).Error; err != nil {
 		return
+	}
+	return
+}
+
+func getRoleQuery(ctx context.Context, req *system.SystemRoleRequest) *gorm.DB {
+	query := mysql.GetReadMysqlDDB().WithContext(ctx).Model(new(modle.SystemRole)).Where("is_delete = 0")
+	if req.Status != nil {
+		query.Where("status = ?", req.GetStatus())
+	}
+	if req.GetRoleName() != "" {
+		query.Where("role_name LIKE ?", "%"+req.GetRoleName()+"%")
+	}
+	return query
+}
+
+func QueryRoleList(ctx context.Context, req *system.SystemRoleRequest) (resp []*modle.SystemRole, err error) {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(new(modle.SystemRole)).Table("system_role t1").
+		Joins("INNER JOIN system_role_user t2 ON t2.role_id = t1.id").
+		Select("t1.*").Where("t1.is_delete = 0 AND t2.user_id = ? order by role_sort", req.GetUserId()).Find(&resp).Error; err != nil {
+		return nil, err
 	}
 	return
 }

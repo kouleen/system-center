@@ -29,6 +29,18 @@ func QueryRolePage(ctx context.Context, req *system.SystemRoleRequest) (resp *sy
 	}, err
 }
 
+func QueryRoleList(ctx context.Context, req *system.SystemRoleRequest) (resp []*system.SystemRoleResponse, err error) {
+	list, err := repository.QueryRoleList(ctx, req)
+	if err != nil {
+		return
+	}
+	respList := make([]*system.SystemRoleResponse, len(list))
+	for index, item := range list {
+		respList[index] = item.ConvertResp()
+	}
+	return respList, err
+}
+
 func QueryRole(ctx context.Context, req *system.SystemRoleRequest) (resp *system.SystemRoleResponse, err error) {
 	item, err := repository.QueryRoleById(ctx, req.GetId())
 	if err != nil {

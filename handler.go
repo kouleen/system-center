@@ -140,6 +140,11 @@ func (s *SystemServiceImpl) QuerySystemRolePage(ctx context.Context, systemRoleR
 	return handle.QueryRolePage(ctx, systemRoleRequest)
 }
 
+// QuerySystemRoleList implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemRoleList(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp []*system.SystemRoleResponse, err error) {
+	return handle.QueryRoleList(ctx, systemRoleRequest)
+}
+
 // QuerySystemRole implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemRole(ctx context.Context, systemRoleRequest *system.SystemRoleRequest) (resp *system.SystemRoleResponse, err error) {
 	return handle.QueryRole(ctx, systemRoleRequest)

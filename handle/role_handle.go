@@ -12,6 +12,10 @@ func QueryRolePage(ctx context.Context, req *system.SystemRoleRequest) (resp *sy
 	return service.QueryRolePage(ctx, req)
 }
 
+func QueryRoleList(ctx context.Context, req *system.SystemRoleRequest) (resp []*system.SystemRoleResponse, err error) {
+	return service.QueryRoleList(ctx, req)
+}
+
 func QueryRole(ctx context.Context, req *system.SystemRoleRequest) (resp *system.SystemRoleResponse, err error) {
 	return service.QueryRole(ctx, req)
 }
