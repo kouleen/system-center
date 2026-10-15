@@ -3,7 +3,9 @@ package message
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
+	"github.com/bytedance/gopkg/util/logger"
 	"github.com/kouleen/common/message"
 	"github.com/kouleen/idl/kitex_gen/common"
 	"github.com/kouleen/idl/kitex_gen/system"
@@ -22,10 +24,27 @@ func (OperateLogConsumer) HandleMessage(ctx context.Context, msg *message.Messag
 	if err := json.Unmarshal(msg.Body, &req); err != nil {
 		return err
 	}
+	if err := checkOperateLogReq(&req); err != nil {
+		logger.CtxErrorf(ctx, "checkOperateLogReq error: %v", err)
+		return nil
+	}
 	location := utils.GetIPLocationOnline(ctx, req.Ip)
 	req.Location = location
 	if _, err := service.CreateOperateLog(ctx, &req); err != nil {
 		return err
+	}
+	return nil
+}
+
+func checkOperateLogReq(req *system.SystemOperateLogRequest) error {
+	if req.GetModule() == "" {
+		return errors.New("module is empty")
+	}
+	if req.GetBusiness() == "" {
+		return errors.New("business is empty")
+	}
+	if req.GetType() == "" {
+		return errors.New("type is empty")
 	}
 	return nil
 }

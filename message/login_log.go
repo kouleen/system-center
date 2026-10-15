@@ -3,7 +3,9 @@ package message
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
+	"github.com/bytedance/gopkg/util/logger"
 	"github.com/kouleen/common/message"
 	"github.com/kouleen/idl/kitex_gen/common"
 	"github.com/kouleen/idl/kitex_gen/system"
@@ -22,10 +24,27 @@ func (LoginLogConsumer) HandleMessage(ctx context.Context, msg *message.Message)
 	if err := json.Unmarshal(msg.Body, &req); err != nil {
 		return err
 	}
+	if err := checkLoginLogReq(&req); err != nil {
+		logger.CtxErrorf(ctx, "checkLoginLogReq error: %v", err)
+		return nil
+	}
 	location := utils.GetIPLocationOnline(ctx, req.Ip)
 	req.Location = location
 	if _, err := service.CreateLoginLog(ctx, &req); err != nil {
 		return err
+	}
+	return nil
+}
+
+func checkLoginLogReq(req *system.SystemLoginLogRequest) error {
+	if req.GetUsername() == "" {
+		return errors.New("username is empty")
+	}
+	if req.GetIp() == "" {
+		return errors.New("ip is empty")
+	}
+	if req.GetLocation() == "" {
+		return errors.New("location is empty")
 	}
 	return nil
 }
