@@ -48,6 +48,7 @@ func CreateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (boo
 		TemplateName:    req.TemplateName,
 		TemplateType:    req.TemplateType,
 		TemplateContent: req.TemplateContent,
+		Status:          req.Status,
 		Remark:          req.Remark,
 		CreatedBy:       ctxutil.GetUserId(ctx),
 	}
@@ -65,6 +66,7 @@ func UpdateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (res
 	template.TemplateName = req.TemplateName
 	template.TemplateType = req.TemplateType
 	template.TemplateContent = req.TemplateContent
+	template.Status = req.Status
 	template.Remark = req.Remark
 	template.UpdatedBy = ctxutil.GetUserId(ctx)
 	if err = repository.UpdateTemplate(ctx, template); err != nil {
@@ -74,13 +76,7 @@ func UpdateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (res
 }
 
 func DeleteTemplate(ctx context.Context, req *system.SystemTemplateRequest) (resp bool, err error) {
-	template, err := repository.QueryTemplateById(ctx, *req.Id)
-	if err != nil {
-		return false, err
-	}
-	template.IsDelete = req.IsDelete
-	template.UpdatedBy = ctxutil.GetUserId(ctx)
-	if err = repository.UpdateTemplate(ctx, template); err != nil {
+	if err = repository.DeleteTemplate(ctx, req.GetIdList()); err != nil {
 		return false, err
 	}
 	return true, nil

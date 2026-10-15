@@ -12,6 +12,7 @@ type SystemTemplate struct {
 	TemplateName    string     `json:"templateName" gorm:"column:template_name;not null"`
 	TemplateType    string     `json:"templateType" gorm:"column:template_type;not null"`
 	TemplateContent string     `json:"templateContent" gorm:"column:template_content;not null"`
+	Status          *int8      `json:"status" gorm:"column:status;not null"`
 	IsDelete        *int8      `json:"isDelete" gorm:"column:is_delete;not null;default:0"`
 	Remark          string     `json:"remark" gorm:"column:remark;default:''"`
 	CreatedBy       int64      `json:"createdBy,string" gorm:"column:created_by;not null;default:-1"`
@@ -31,6 +32,7 @@ func (s *SystemTemplate) ConvertResp() *system.SystemTemplateResponse {
 		TemplateName:    s.TemplateName,
 		TemplateType:    s.TemplateType,
 		TemplateContent: s.TemplateContent,
+		Status:          s.Status,
 		Remark:          s.Remark,
 		IsDelete:        s.IsDelete,
 		CreatedBy:       s.CreatedBy,

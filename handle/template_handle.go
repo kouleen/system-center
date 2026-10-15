@@ -26,11 +26,14 @@ func SaveTemplate(ctx context.Context, req *system.SystemTemplateRequest) (bool,
 	if req.TemplateContent == "" {
 		return false, errors.New("empty template content")
 	}
+	if req.Status == nil {
+		return false, errors.New("empty status")
+	}
 	return service.CreateTemplate(ctx, req)
 }
 
 func UpdateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (resp bool, err error) {
-	if req.Id != nil {
+	if req.Id == nil {
 		return false, errors.New("template id should not be nil")
 	}
 	if req.TemplateCode == "" {
@@ -49,11 +52,8 @@ func UpdateTemplate(ctx context.Context, req *system.SystemTemplateRequest) (res
 }
 
 func DeleteTemplate(ctx context.Context, req *system.SystemTemplateRequest) (resp bool, err error) {
-	if req.Id == nil {
+	if len(req.GetIdList()) == 0 {
 		return false, errors.New("template id should not be nil")
-	}
-	if req.IsDelete == nil {
-		return false, errors.New("template isDelete should not be nil")
 	}
 	return service.DeleteTemplate(ctx, req)
 }
