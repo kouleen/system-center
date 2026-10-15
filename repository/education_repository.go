@@ -27,7 +27,7 @@ func QueryEducationPage(ctx context.Context, req *system.SystemEducationRequest)
 	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
-	query = query.Order("create_time desc")
+	query = query.Order("create_time desc,id desc")
 	i := (req.GetCurrent() - 1) * req.GetSize()
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&resp).Error; err != nil {
 		return

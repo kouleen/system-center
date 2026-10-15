@@ -24,7 +24,7 @@ func QueryRolePage(ctx context.Context, req *system.SystemRoleRequest) (resp []*
 	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
-	query = query.Order("role_sort")
+	query = query.Order("role_sort,id desc")
 	i := (req.GetCurrent() - 1) * req.GetSize()
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&resp).Error; err != nil {
 		return

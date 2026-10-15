@@ -14,7 +14,7 @@ func QueryDictLinePage(ctx context.Context, req *system.SystemDictLineRequest) (
 	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
-	query = query.Order("dict_sort")
+	query = query.Order("dict_sort,id desc")
 	i := (req.GetCurrent() - 1) * req.GetSize()
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&systemDictLines).Error; err != nil {
 		return

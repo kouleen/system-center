@@ -33,10 +33,10 @@ func QueryOperateLogPage(ctx context.Context, req *system.SystemOperateLogReques
 			query = query.Where("create_time between ? and ?", startUTC, endUTC)
 		}
 	}
-	if err = query.Count(&total).Error; err != nil {
+	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
-	query = query.Order("create_time desc")
+	query = query.Order("create_time desc,id desc")
 	i := (req.GetCurrent() - 1) * req.GetSize()
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&resp).Error; err != nil {
 		return
