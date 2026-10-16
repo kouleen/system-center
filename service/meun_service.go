@@ -113,20 +113,20 @@ func buildMenuTree(systemMenus []*modle.SystemMenu) []*system.SystemMenuResponse
 		if menu.ParentId == 0 {
 			tree := menu.ConvertResp()
 			// 2. 递归查找子菜单
-			tree.Children = getChildren(menu.ID, systemMenus)
+			tree.Children = getMenuChildren(menu.ID, systemMenus)
 			treeList = append(treeList, tree)
 		}
 	}
 	return treeList
 }
 
-func getChildren(parentId int64, menuList []*modle.SystemMenu) []*system.SystemMenuResponse {
+func getMenuChildren(parentId int64, menuList []*modle.SystemMenu) []*system.SystemMenuResponse {
 	var children []*system.SystemMenuResponse
 	for _, menu := range menuList {
 		if menu.ParentId == parentId {
 			tree := menu.ConvertResp()
 			// 递归找子菜单
-			tree.Children = getChildren(menu.ID, menuList)
+			tree.Children = getMenuChildren(menu.ID, menuList)
 			children = append(children, tree)
 		}
 	}

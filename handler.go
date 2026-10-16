@@ -264,22 +264,62 @@ func (s *SystemServiceImpl) DeleteSystemEducation(ctx context.Context, systemEdu
 	return handle.DeleteEducation(ctx, systemEducationRequest)
 }
 
+// QuerySystemLoginLogPage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemLoginLogPage(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp *system.SystemLoginLogPageResponse, err error) {
 	return handle.QueryLoginLogPage(ctx, systemLoginLogRequest)
 }
 
+// ForcedRetreatSystemLoginLog implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) ForcedRetreatSystemLoginLog(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp bool, err error) {
 	return handle.ForcedRetreatLoginLog(ctx, systemLoginLogRequest)
 }
 
+// DeleteSystemLoginLog implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemLoginLog(ctx context.Context, systemLoginLogRequest *system.SystemLoginLogRequest) (resp bool, err error) {
 	return handle.DeleteLoginLog(ctx, systemLoginLogRequest)
 }
 
+// QuerySystemOperateLogPage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemOperateLogPage(ctx context.Context, systemOperateLogRequest *system.SystemOperateLogRequest) (r *system.SystemOperateLogPageResponse, err error) {
 	return handle.QueryOperateLogPage(ctx, systemOperateLogRequest)
 }
 
+// DeleteSystemOperateLog implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) DeleteSystemOperateLog(ctx context.Context, systemOperateLogRequest *system.SystemOperateLogRequest) (r bool, err error) {
 	return handle.DeleteOperateLog(ctx, systemOperateLogRequest)
+}
+
+// QuerySystemAreaPage implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemAreaPage(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r *system.SystemAreaPageResponse, err error) {
+	return handle.QueryAreaPage(ctx, systemAreaRequest)
+}
+
+// QuerySystemAreaTree implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemAreaTree(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r []*system.SystemAreaResponse, err error) {
+	return handle.QueryAreaTree(ctx, systemAreaRequest)
+}
+
+// QuerySystemAreaList implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemAreaList(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r []*system.SystemAreaResponse, err error) {
+	return handle.QueryAreaList(ctx, systemAreaRequest)
+}
+
+// QuerySystemArea implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemArea(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r *system.SystemAreaResponse, err error) {
+	return handle.QueryArea(ctx, systemAreaRequest)
+}
+
+// SaveSystemArea implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) SaveSystemArea(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r bool, err error) {
+	return handle.SaveArea(ctx, systemAreaRequest)
+}
+
+// UpdateSystemArea implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) UpdateSystemArea(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r bool, err error) {
+	return handle.UpdateArea(ctx, systemAreaRequest)
+}
+
+// DeleteSystemArea implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) DeleteSystemArea(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r bool, err error) {
+	return handle.DeleteArea(ctx, systemAreaRequest)
 }

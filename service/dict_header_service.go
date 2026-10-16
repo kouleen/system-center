@@ -66,7 +66,7 @@ func CreateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) 
 }
 
 func UpdateDictHeader(ctx context.Context, req *system.SystemDictHeaderRequest) (resp bool, err error) {
-	header, err := repository.QueryDictHeaderById(ctx, *req.Id)
+	header, err := repository.QueryDictHeaderById(ctx, req.GetId())
 	if err != nil {
 		return false, err
 	}
