@@ -43,9 +43,6 @@ func checkLoginLogReq(req *system.SystemLoginLogRequest) error {
 	if req.GetIp() == "" {
 		return errors.New("ip is empty")
 	}
-	if req.GetLocation() == "" {
-		return errors.New("location is empty")
-	}
 	return nil
 }
 
