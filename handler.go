@@ -294,11 +294,6 @@ func (s *SystemServiceImpl) QuerySystemAreaPage(ctx context.Context, systemAreaR
 	return handle.QueryAreaPage(ctx, systemAreaRequest)
 }
 
-// QuerySystemAreaTree implements the SystemServiceImpl interface.
-func (s *SystemServiceImpl) QuerySystemAreaTree(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r []*system.SystemAreaResponse, err error) {
-	return handle.QueryAreaTree(ctx, systemAreaRequest)
-}
-
 // QuerySystemAreaList implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemAreaList(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r []*system.SystemAreaResponse, err error) {
 	return handle.QueryAreaList(ctx, systemAreaRequest)

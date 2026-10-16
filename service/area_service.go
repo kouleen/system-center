@@ -25,48 +25,6 @@ func QueryAreaPage(ctx context.Context, req *system.SystemAreaRequest) (resp *sy
 	}, err
 }
 
-func QueryAreaTree(ctx context.Context, req *system.SystemAreaRequest) (resp []*system.SystemAreaResponse, err error) {
-	list, err := repository.QueryAreaList(ctx, req)
-	if err != nil {
-		return
-	}
-	return buildAreaTree(list), nil
-}
-
-func buildAreaTree(systemAreas []*modle.SystemArea) []*system.SystemAreaResponse {
-	// key: parentCode, value: 子区域列表
-	groupMap := make(map[string][]*modle.SystemArea)
-	// 1. 一次性分组，只遍历1次
-	for _, area := range systemAreas {
-		groupMap[area.ParentCode] = append(groupMap[area.ParentCode], area)
-	}
-
-	var areaList []*system.SystemAreaResponse
-	// 2. 取出根节点 parentCode == ""
-	rootList := groupMap[""]
-	for _, root := range rootList {
-		tree := root.ConvertResp()
-		tree.Children = buildChildTree(root.AreaCode, groupMap)
-		areaList = append(areaList, tree)
-	}
-	return areaList
-}
-
-// 递归从map拿子节点，不再循环全量数组
-func buildChildTree(parentCode string, groupMap map[string][]*modle.SystemArea) []*system.SystemAreaResponse {
-	childAreas, ok := groupMap[parentCode]
-	if !ok {
-		return nil
-	}
-	var children []*system.SystemAreaResponse
-	for _, area := range childAreas {
-		resp := area.ConvertResp()
-		resp.Children = buildChildTree(area.AreaCode, groupMap)
-		children = append(children, resp)
-	}
-	return children
-}
-
 func QueryAreaList(ctx context.Context, req *system.SystemAreaRequest) (resp []*system.SystemAreaResponse, err error) {
 	list, err := repository.QueryAreaList(ctx, req)
 	if err != nil {
