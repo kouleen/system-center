@@ -19,7 +19,7 @@ func QueryLoginLogPage(ctx context.Context, req *system.SystemLoginLogRequest) (
 		query = query.Where("username LIKE ?", req.GetUsername()+"%")
 	}
 	if req.GetIp() != "" {
-		query = query.Where("method_type like ?", req.GetIp()+"%")
+		query = query.Where("ip like ?", req.GetIp()+"%")
 	}
 	if req.Params != nil {
 		if req.GetParams().GetBeginTime() != "" && req.GetParams().GetEndTime() != "" {
