@@ -61,6 +61,9 @@ func ForcedRetreatLoginLog(ctx context.Context, req *system.SystemLoginLogReques
 	if err != nil {
 		return
 	}
+	if err = repository.BatchDeleteLoginLog(ctx, req.GetIdList()); err != nil {
+		return
+	}
 	return count == int64(len(tokenList)), nil
 }
 
