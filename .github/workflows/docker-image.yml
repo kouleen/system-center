@@ -107,7 +107,11 @@ jobs:
                 "MYSQL_SLAVE2_HOST=${{ secrets.MYSQL_SLAVE2_HOST }}",
                 "MYSQL_SLAVE2_PORT=${{ secrets.MYSQL_SLAVE2_PORT }}",
                 "MYSQL_SLAVE2_DATABASE=${{ secrets.MYSQL_SLAVE2_DATABASE }}",
-                "RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}"
+                "RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}",
+                "CLOUDFLARE_ACCESS_KEY_ID=${{ secrets.CLOUDFLARE_ACCESS_KEY_ID }}",
+                "CLOUDFLARE_SECRET_ACCESS_KEY=${{ secrets.CLOUDFLARE_SECRET_ACCESS_KEY }}",
+                "CLOUDFLARE_ENDPOINT=${{ secrets.CLOUDFLARE_ENDPOINT }}",
+                "CLOUDFLARE_BUCKET=${{ secrets.CLOUDFLARE_BUCKET }}"
             ],
             "volumeBinds": [],
             "cmdOverride": []
@@ -162,7 +166,11 @@ jobs:
                 "MYSQL_SLAVE2_HOST=${{ secrets.MYSQL_SLAVE2_HOST }}",
                 "MYSQL_SLAVE2_PORT=${{ secrets.MYSQL_SLAVE2_PORT }}",
                 "MYSQL_SLAVE2_DATABASE=${{ secrets.MYSQL_SLAVE2_DATABASE }}",
-                "RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}"
+                "RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}",
+                "CLOUDFLARE_ACCESS_KEY_ID=${{ secrets.CLOUDFLARE_ACCESS_KEY_ID }}",
+                "CLOUDFLARE_SECRET_ACCESS_KEY=${{ secrets.CLOUDFLARE_SECRET_ACCESS_KEY }}",
+                "CLOUDFLARE_ENDPOINT=${{ secrets.CLOUDFLARE_ENDPOINT }}",
+                "CLOUDFLARE_BUCKET=${{ secrets.CLOUDFLARE_BUCKET }}"
             ],
             "volumeBinds": [],
             "cmdOverride": []

@@ -318,3 +318,8 @@ func (s *SystemServiceImpl) UpdateSystemArea(ctx context.Context, systemAreaRequ
 func (s *SystemServiceImpl) DeleteSystemArea(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r bool, err error) {
 	return handle.DeleteArea(ctx, systemAreaRequest)
 }
+
+// UploadSystemFile implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) UploadSystemFile(ctx context.Context, systemFileRequest *system.SystemFileRequest) (resp *system.SystemFileResponse, err error) {
+	return handle.UploadFile(ctx, systemFileRequest)
+}
