@@ -88,13 +88,16 @@ func UpdateDictLine(ctx context.Context, req *system.SystemDictLineRequest) (res
 }
 
 func DeleteDictLine(ctx context.Context, req *system.SystemDictLineRequest) (resp bool, err error) {
-	line, err := repository.QueryDictLineById(ctx, *req.Id)
+	itemList, err := repository.QueryDictLineByIdList(ctx, req.GetIdList())
 	if err != nil {
 		return false, err
 	}
-	line.IsDelete = req.IsDelete
-	line.UpdatedBy = ctxutil.GetUserId(ctx)
-	if err = repository.UpdateDictLine(ctx, line); err != nil {
+	isDelete := int8(1)
+	for _, item := range itemList {
+		item.IsDelete = &isDelete
+		item.UpdatedBy = ctxutil.GetUserId(ctx)
+	}
+	if err = repository.BatchUpdateLine(ctx, itemList); err != nil {
 		return false, err
 	}
 	return true, nil

@@ -69,3 +69,24 @@ func QueryRoleByIdList(ctx context.Context, ids []int64) (resp []*modle.SystemRo
 func UpdateRole(ctx context.Context, entity *modle.SystemRole) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(entity).Where("id = ?", entity.ID).Save(entity).Error
 }
+
+func BatchDeleteRole(ctx context.Context, roleIdList []int64, systemRoleList []*modle.SystemRole) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if len(roleIdList) > 0 {
+			if err = tx.Where("role_id in (?)", roleIdList).Delete(&modle.SystemRoleMenu{}).Error; err != nil {
+				return err
+			}
+			if err = tx.Where("role_id in (?)", roleIdList).Delete(&modle.SystemRoleUser{}).Error; err != nil {
+				return err
+			}
+		}
+		if len(systemRoleList) > 0 {
+			for _, role := range systemRoleList {
+				if err = tx.Model(&modle.SystemRole{}).Where("id = ?", role.ID).Save(role).Error; err != nil {
+					return err
+				}
+			}
+		}
+		return nil
+	})
+}

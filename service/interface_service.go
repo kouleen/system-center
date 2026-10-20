@@ -89,13 +89,16 @@ func UpdateInterface(ctx context.Context, req *system.SystemInterfaceRequest) (r
 }
 
 func DeleteInterface(ctx context.Context, req *system.SystemInterfaceRequest) (resp bool, err error) {
-	inter, err := repository.QueryInterfaceById(ctx, *req.Id)
+	itemList, err := repository.QueryInterfaceByIdList(ctx, req.GetIdList())
 	if err != nil {
 		return false, err
 	}
-	inter.IsDelete = req.IsDelete
-	inter.UpdatedBy = ctxutil.GetUserId(ctx)
-	if err = repository.UpdateInterface(ctx, inter); err != nil {
+	isDelete := int8(1)
+	for _, item := range itemList {
+		item.IsDelete = &isDelete
+		item.UpdatedBy = ctxutil.GetUserId(ctx)
+	}
+	if err = repository.BatchUpdateInterface(ctx, itemList); err != nil {
 		return false, err
 	}
 	return true, nil

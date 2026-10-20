@@ -77,12 +77,30 @@ func QueryInterfaceById(ctx context.Context, id int64) (systemInterface *modle.S
 	return
 }
 
+func QueryInterfaceByIdList(ctx context.Context, idList []int64) (list []*modle.SystemInterface, err error) {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Where("id in (?)", idList).Find(&list).Error; err != nil {
+		return nil, err
+	}
+	return
+}
+
 func CreateInterface(ctx context.Context, entity *modle.SystemInterface) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Create(entity).Error
 }
 
 func UpdateInterface(ctx context.Context, entity *modle.SystemInterface) (err error) {
 	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemInterface{}).Where("id = ?", entity.ID).Save(entity).Error
+}
+
+func BatchUpdateInterface(ctx context.Context, entityList []*modle.SystemInterface) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		for _, item := range entityList {
+			if err = tx.Model(&modle.SystemInterface{}).Where("id = ?", item.ID).Save(item).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 }
 
 func CleanCacheInterface(ctx context.Context, req *system.SystemInterfaceRequest) (resp bool, err error) {

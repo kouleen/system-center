@@ -154,7 +154,7 @@ func DeleteRole(ctx context.Context, req *system.SystemRoleRequest) (resp bool, 
 		role.IsDelete = &isDelete
 		role.UpdatedBy = ctxutil.GetUserId(ctx)
 	}
-	if err = repository.DeleteRoleMenu(ctx, req.GetIdList(), itemList); err != nil {
+	if err = repository.BatchDeleteRole(ctx, req.GetIdList(), itemList); err != nil {
 		return
 	}
 	return true, nil

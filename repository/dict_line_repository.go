@@ -55,16 +55,30 @@ func QueryDictLineById(ctx context.Context, id int64) (systemDictLine *modle.Sys
 	return
 }
 
-func CreateDictLine(ctx context.Context, entity *modle.SystemDictLine) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Create(entity).Error; err != nil {
-		return err
+func QueryDictLineByIdList(ctx context.Context, ids []int64) (systemDictLines []*modle.SystemDictLine, err error) {
+	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Where("id in (?)", ids).Find(&systemDictLines).Error; err != nil {
+		return nil, err
 	}
-	return nil
+	return
+}
+
+func CreateDictLine(ctx context.Context, entity *modle.SystemDictLine) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Create(entity).Error
+
 }
 
 func UpdateDictLine(ctx context.Context, entity *modle.SystemDictLine) (err error) {
-	if err = mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Where("id = ?", entity.ID).Save(entity).Error; err != nil {
-		return err
-	}
-	return nil
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Model(&modle.SystemDictLine{}).Where("id = ?", entity.ID).Save(entity).Error
+
+}
+
+func BatchUpdateLine(ctx context.Context, entityList []*modle.SystemDictLine) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		for _, item := range entityList {
+			if err = tx.Model(&modle.SystemDictLine{}).Where("id = ?", item.ID).Save(item).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 }
