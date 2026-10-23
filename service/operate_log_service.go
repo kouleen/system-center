@@ -30,7 +30,7 @@ func QueryOperateLogPage(ctx context.Context, req *system.SystemOperateLogReques
 		rpcReq := &user.UserHeaderRequest{
 			UserIdList: userIdList,
 		}
-		headerResponses, err := client.GetUserRpc().QueryUserHeaderList(ctx, rpcReq)
+		headerResponses, err := client.GetUserRpc(ctx).QueryUserHeaderList(ctx, rpcReq)
 		if err == nil {
 			for _, headerResponse := range headerResponses {
 				userHeaderMap[headerResponse.Id] = headerResponse

@@ -177,14 +177,14 @@ func QueryRoleUserPage(ctx context.Context, req *system.SystemRoleUserRequest) (
 	}
 	userHeaderReq := &user.UserHeaderRequest{
 		Params:     req.GetParams(),
-		Current:    req.GetCurrent(),
-		Size:       req.GetSize(),
+		Current:    req.Current,
+		Size:       req.Size,
 		Username:   req.GetUsername(),
 		Nickname:   req.GetNickname(),
 		Phone:      req.GetPhone(),
 		UserIdList: userIdList,
 	}
-	userHeaderResp, err := client.GetUserRpc().QueryUserHeaderPage(ctx, userHeaderReq)
+	userHeaderResp, err := client.GetUserRpc(ctx).QueryUserHeaderPage(ctx, userHeaderReq)
 	if err != nil {
 		return
 	}
