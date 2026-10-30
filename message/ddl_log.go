@@ -29,10 +29,8 @@ func (DDLLog) HandleMessage(ctx context.Context, msg *message.Message) error {
 	}
 
 	if req[0].GetSchema() == "live_system" && req[0].GetTable() == "system_change_log" {
-		logutil.CtxInfo(ctx, "ddl log message,%+v", req)
 		return nil
 	}
-	logutil.CtxInfo(ctx, "ddl log message,%+v", req)
 	if err := service.BatchCreateChangeLog(ctx, req); err != nil {
 		return err
 	}
