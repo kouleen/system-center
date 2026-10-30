@@ -289,6 +289,16 @@ func (s *SystemServiceImpl) DeleteSystemOperateLog(ctx context.Context, systemOp
 	return handle.DeleteOperateLog(ctx, systemOperateLogRequest)
 }
 
+// QuerySystemChangeLogPage implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) QuerySystemChangeLogPage(ctx context.Context, systemChangeLogRequest *system.SystemChangeLogRequest) (r *system.SystemChangeLogPageResponse, err error) {
+	return handle.QueryChangeLogPage(ctx, systemChangeLogRequest)
+}
+
+// DeleteSystemChangeLog implements the SystemServiceImpl interface.
+func (s *SystemServiceImpl) DeleteSystemChangeLog(ctx context.Context, systemChangeLogRequest *system.SystemChangeLogRequest) (r bool, err error) {
+	return handle.DeleteChangeLog(ctx, systemChangeLogRequest)
+}
+
 // QuerySystemAreaPage implements the SystemServiceImpl interface.
 func (s *SystemServiceImpl) QuerySystemAreaPage(ctx context.Context, systemAreaRequest *system.SystemAreaRequest) (r *system.SystemAreaPageResponse, err error) {
 	return handle.QueryAreaPage(ctx, systemAreaRequest)

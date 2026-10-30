@@ -7,6 +7,7 @@ import (
 
 	"github.com/bytedance/gopkg/util/logger"
 	"github.com/kouleen/common/message"
+	"github.com/kouleen/common/pkg/logutil"
 	"github.com/kouleen/idl/kitex_gen/common"
 	"github.com/kouleen/idl/kitex_gen/system"
 	"github.com/kouleen/system-center/service"
@@ -20,6 +21,11 @@ func (OperateLogConsumer) Queue() string {
 }
 
 func (OperateLogConsumer) HandleMessage(ctx context.Context, msg *message.Message) error {
+	defer func() {
+		if err := recover(); err != nil {
+			logutil.CtxError(ctx, "recover panic err: %#v", err)
+		}
+	}()
 	var req system.SystemOperateLogRequest
 	if err := json.Unmarshal(msg.Body, &req); err != nil {
 		return err
