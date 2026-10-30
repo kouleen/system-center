@@ -36,6 +36,9 @@ func getDictLineQuery(ctx context.Context, req *system.SystemDictLineRequest) *g
 	if req.DictValue != "" {
 		query = query.Where("dict_value like ?", "%"+req.DictValue+"%")
 	}
+	if req.Remark != "" {
+		query = query.Where("remark like ?", "%"+req.Remark+"%")
+	}
 	return query
 }
 
