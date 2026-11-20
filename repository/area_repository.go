@@ -24,7 +24,7 @@ func QueryAreaPage(ctx context.Context, req *system.SystemAreaRequest) (resp []*
 	if err = query.Count(&total).Error; err != nil || total == 0 {
 		return
 	}
-	query = query.Order("create_time desc,id desc")
+	query = query.Order("area_code asc")
 	i := (req.GetCurrent() - 1) * req.GetSize()
 	if err = query.Offset(int(i)).Limit(int(req.GetSize())).Find(&resp).Error; err != nil {
 		return
@@ -87,7 +87,7 @@ func QueryAreaList(ctx context.Context, req *system.SystemAreaRequest) (resp []*
 			query = query.Where("create_time between ? and ?", startUTC, endUTC)
 		}
 	}
-	query = query.Order("create_time desc")
+	query = query.Order("area_code asc")
 	if err = query.Find(&resp).Error; err != nil {
 		return
 	}

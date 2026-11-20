@@ -45,3 +45,17 @@ func UpdateRoleMenu(ctx context.Context, systemRole *modle.SystemRole, systemRol
 		return nil
 	})
 }
+
+func SaveRoleMenu(ctx context.Context, roleId int64, systemRoleMenus []*modle.SystemRoleMenu) (err error) {
+	return mysql.GetWriteMysqlDDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if err = tx.Where("role_id = ?", roleId).Delete(&modle.SystemRoleMenu{}).Error; err != nil {
+			return err
+		}
+		if len(systemRoleMenus) > 0 {
+			if err = tx.Model(&modle.SystemRoleMenu{}).Create(systemRoleMenus).Error; err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+}
