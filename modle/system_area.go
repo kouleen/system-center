@@ -13,6 +13,7 @@ type SystemArea struct {
 	AreaDesc      string     `json:"areaDesc" gorm:"column:area_desc;not null"`
 	ParentCode    string     `json:"parentCode" gorm:"column:parent_code;"`
 	ParentName    string     `json:"parentName" gorm:"column:parent_name;"`
+	ParentDesc    string     `json:"parentDesc" gorm:"column:parent_desc;"`
 	RegionCode    string     `json:"regionCode" gorm:"column:region_code;"`
 	RegionName    string     `json:"regionName" gorm:"column:region_name;"`
 	RegionDesc    string     `json:"regionDesc" gorm:"column:region_desc;"`
@@ -20,6 +21,7 @@ type SystemArea struct {
 	CountryName   string     `json:"countryName" gorm:"column:country_name;"`
 	CountryDesc   string     `json:"countryDesc" gorm:"column:country_desc;"`
 	PhoneCode     string     `json:"phoneCode" gorm:"column:phone_code;"`
+	PostalCode    string     `json:"postalCode" gorm:"column:postal_code;"`
 	AreaLevelCode string     `json:"areaLevelCode" gorm:"column:area_level_code;"`
 	Remark        string     `json:"remark" gorm:"column:remark;default:''"`
 	IsDelete      *int8      `json:"isDelete" gorm:"column:is_delete;not null;default:0"`
@@ -41,11 +43,15 @@ func (p *SystemArea) ConvertResp() *system.SystemAreaResponse {
 		AreaDesc:      p.AreaDesc,
 		ParentCode:    p.ParentCode,
 		ParentName:    p.ParentName,
+		ParentDesc:    p.ParentDesc,
 		RegionCode:    p.RegionCode,
 		RegionName:    p.RegionName,
+		RegionDesc:    p.RegionDesc,
 		CountryCode:   p.CountryCode,
 		CountryName:   p.CountryName,
+		CountryDesc:   p.CountryDesc,
 		PhoneCode:     p.PhoneCode,
+		PostalCode:    p.PostalCode,
 		AreaLevelCode: p.AreaLevelCode,
 		Remark:        p.Remark,
 		IsDelete:      p.IsDelete,

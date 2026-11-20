@@ -58,6 +58,7 @@ func SaveArea(ctx context.Context, request *system.SystemAreaRequest) (bool, err
 		AreaDesc:      request.GetAreaDesc(),
 		ParentCode:    request.GetParentCode(),
 		ParentName:    request.GetParentName(),
+		ParentDesc:    request.GetParentDesc(),
 		RegionCode:    request.GetRegionCode(),
 		RegionName:    request.GetRegionName(),
 		RegionDesc:    request.GetRegionDesc(),
@@ -65,6 +66,7 @@ func SaveArea(ctx context.Context, request *system.SystemAreaRequest) (bool, err
 		CountryName:   request.GetCountryName(),
 		CountryDesc:   request.GetCountryDesc(),
 		PhoneCode:     request.GetPhoneCode(),
+		PostalCode:    request.GetPostalCode(),
 		AreaLevelCode: request.GetAreaLevelCode(),
 		Remark:        request.GetRemark(),
 		CreatedBy:     ctxutil.GetUserId(ctx),
@@ -85,6 +87,7 @@ func UpdateArea(ctx context.Context, request *system.SystemAreaRequest) (bool, e
 	entity.AreaDesc = request.GetAreaDesc()
 	entity.ParentCode = request.GetParentCode()
 	entity.ParentName = request.GetParentName()
+	entity.ParentDesc = request.GetParentDesc()
 	entity.RegionCode = request.GetRegionCode()
 	entity.RegionName = request.GetRegionName()
 	entity.RegionDesc = request.GetRegionDesc()
@@ -92,6 +95,7 @@ func UpdateArea(ctx context.Context, request *system.SystemAreaRequest) (bool, e
 	entity.CountryName = request.GetCountryName()
 	entity.CountryDesc = request.GetCountryDesc()
 	entity.PhoneCode = request.GetPhoneCode()
+	entity.PostalCode = request.GetPostalCode()
 	entity.AreaLevelCode = request.GetAreaLevelCode()
 	entity.Remark = request.GetRemark()
 	entity.UpdatedBy = ctxutil.GetUserId(ctx)
