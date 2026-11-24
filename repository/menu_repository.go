@@ -13,7 +13,7 @@ func QueryMenuListByUserId(ctx context.Context, userId int64) (resp []*modle.Sys
 	if err = mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Table("system_menu t1").
 		Joins("INNER JOIN system_role_menu t2 ON t1.id = t2.menu_id").
 		Joins("INNER JOIN system_role_user t3 ON t2.role_id = t3.role_id").
-		Select("t1.*").Where("t1.is_delete = 0 AND t3.user_id = ? order by order_num", userId).Find(&resp).Error; err != nil {
+		Select("t1.*").Where("t1.is_delete = 0 AND t1.status = 1 AND t3.user_id = ? order by order_num", userId).Find(&resp).Error; err != nil {
 		return nil, err
 	}
 	return
@@ -23,8 +23,6 @@ func QueryMenuList(ctx context.Context, req *system.SystemMenuRequest) (resp []*
 	query := mysql.GetReadMysqlDDB().WithContext(ctx).Model(&modle.SystemMenu{}).Where("is_delete = ?", 0)
 	if req.Status != nil {
 		query = query.Where("status = ?", req.Status)
-	} else {
-		query = query.Where("status = ?", 1)
 	}
 	if req.MenuName != "" {
 		query = query.Where("menu_name like ?", "%"+req.MenuName+"%")

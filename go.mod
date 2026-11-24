@@ -10,7 +10,7 @@ require (
 	github.com/bytedance/gopkg v0.1.4
 	github.com/cloudwego/hertz v0.10.6
 	github.com/cloudwego/kitex v0.16.4
-	github.com/kouleen/common v0.0.104
+	github.com/kouleen/common v0.0.106
 	github.com/kouleen/idl v0.0.87
 	gorm.io/gorm v1.31.2
 )
